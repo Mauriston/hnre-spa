@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/jrs-hnre-conges-design-system-26d3ce2f-335c-4ac0-b133-196c841d6f21/styles.css">
+<script src="_ds/jrs-hnre-conges-design-system-26d3ce2f-335c-4ac0-b133-196c841d6f21/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0eee9;font-family:'Kalam',cursive;color:#1a1a1a}
+a{color:#121C4B}a:hover{color:#1c4587}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}
+.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}
+.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+.grp{width:100%;font:700 12px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#121C4B;border-top:2px solid #121C4B;padding-top:8px;margin-top:6px}
+.bx{border:1.6px solid #222;border-radius:7px 11px 6px 10px;padding:7px 9px;background:#fff}
+.ph{background:repeating-linear-gradient(135deg,#fff 0 6px,#ececec 6px 7px);border:1.4px dashed #888;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#777;font-size:13px;text-align:center;padding:4px}
+.lb{font-size:12px;color:#666;line-height:1.1}
+.big{font-size:26px;font-weight:700;line-height:1;color:#121C4B}
+.chip{border:1.4px solid #222;border-radius:14px;padding:1px 9px;font-size:12px;white-space:nowrap;background:#fff}
+.chip.on{background:#121C4B;color:#fff;border-color:#121C4B}
+.note{background:#fff6cf;border:1px solid #e8d47a;padding:6px 9px;font-size:13px;line-height:1.25;transform:rotate(-.6deg);color:#5a4500}
+.hl{outline:3px solid #FAB932;outline-offset:2px}
+.bar{height:12px;background:#121C4B;border-radius:2px}
+.bar.g{background:#FAB932}.bar.gr{background:#B9BFD1}
+.row{display:flex;gap:8px}.col{display:flex;flex-direction:column;gap:8px}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Aba Plantonistas no padrão <a class="dv-oid" href="#2a">2a</a></span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a"><div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Scorecards → ranking + desfechos → tabela → escala mensal</div>
+<div class="dv-card" style="width:720px;padding:14px"><div class="col">
+<div class="row" style="justify-content:space-between;align-items:center"><div class="ph" style="width:44px;height:30px">MB</div><b style="font-size:17px;color:#121C4B">PRONTO-ATENDIMENTO · HNRe</b><div class="ph" style="width:44px;height:30px">brasão</div></div>
+<div class="row" style="gap:0;font-size:13px;border-bottom:1.6px solid #222"><span style="padding:2px 10px">Geral</span><span style="padding:2px 10px">Clínico</span><span style="padding:2px 10px">Supervisores</span><span style="padding:2px 10px;border:1.6px solid #222;border-bottom:none;background:#fff;font-weight:700">Plantonistas</span><span style="padding:2px 10px">Escala</span><span style="padding:2px 10px">Pivô</span></div>
+<div class="row" style="flex-wrap:wrap;gap:5px;align-items:center"><span class="chip">jan–jul/2026 ▾</span><span class="chip">Turno ▾</span><span class="chip">Especialidade ▾</span><span class="chip">Supervisor ▾</span><span class="chip">Mín. 10 plantões ▾</span><span class="lb">Ativos:</span><span class="chip on">CT CAMPOS ✕</span></div>
+<div class="row"><div class="bx hl" style="flex:1.4"><div class="lb">% RESOLUTIVIDADE · PLANTONISTAS</div><div class="row" style="align-items:baseline;gap:8px"><div class="big" style="font-size:34px;color:#079558">n,n%</div><span class="lb">▲ n,npp · banda</span></div><div class="ph" style="height:16px;margin-top:4px">régua de limiar: Ruim · Atenção · Bom · Excelente</div></div>
+<div class="bx" style="flex:1"><div class="lb">PLANTONISTAS ATIVOS</div><div class="big">n</div></div><div class="bx" style="flex:1"><div class="lb">PLANTÕES 12h / MÉDICO / MÊS</div><div class="big">n,n</div><div class="lb">mín n · máx n</div></div><div class="bx" style="flex:1"><div class="lb">ATEND. / PLANTÃO</div><div class="big">n,n</div><div class="lb">D n · N n</div></div></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+<div class="bx col hl" style="gap:3px;border-left:5px solid #079558"><b style="font-size:13px">2T TORRES</b><div class="big" style="font-size:22px;color:#079558">96,0%</div><div class="lb">▲ n,npp · Excelente</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês · n% N</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #079558"><b style="font-size:13px">2T LEÃO</b><div class="big" style="font-size:22px;color:#079558">94,1%</div><div class="lb">— 0,0pp · Bom</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês · n% N</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #FAB932"><b style="font-size:13px">1T BARRETO</b><div class="big" style="font-size:22px">91,2%</div><div class="lb">▼ n,npp · Atenção</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês · n% N</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #85200c"><b style="font-size:13px">1T KILDARE</b><div class="big" style="font-size:22px;color:#85200c">86,0%</div><div class="lb">▼ n,npp · Ruim</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês · n% N</div></div>
+</div>
+<div class="lb">◂ ▸ carrossel / "ver todos (n)" — ordem = % resolutividade · só quem atinge o mínimo de plantões</div>
+<div class="row">
+<div class="bx col" style="flex:1"><b style="font-size:13px">% Resolutividade por plantonista</b>
+<div class="col" style="gap:4px;font-size:12px">
+<div class="row hl" style="align-items:center"><span style="width:100px">2T TORRES</span><div class="bar" style="width:62%;background:#079558"></div><span>96,0%</span></div>
+<div class="row" style="align-items:center"><span style="width:100px">2T LEÃO</span><div class="bar" style="width:56%;background:#079558"></div><span>94,1%</span></div>
+<div class="row" style="align-items:center"><span style="width:100px">2T MARINHO</span><div class="bar" style="width:52%"></div><span>92,7%</span></div>
+<div class="row" style="align-items:center"><span style="width:100px">1T BARRETO</span><div class="bar" style="width:48%;background:#FAB932"></div><span>91,2%</span></div>
+<div class="row" style="align-items:center"><span style="width:100px">1T KILDARE</span><div class="bar" style="width:34%;background:#85200c"></div><span>86,0%</span></div>
+<div class="lb">-- média geral · rolagem interna se &gt; 12 nomes</div></div></div>
+<div class="bx col" style="flex:1"><b style="font-size:13px">Composição dos desfechos (100%)</b>
+<div class="col" style="gap:4px;font-size:12px">
+<div class="row" style="align-items:center"><span style="width:84px">TORRES</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:4"></div><div class="bar g" style="flex:2"></div><div class="bar gr" style="flex:3"></div></div></div>
+<div class="row" style="align-items:center"><span style="width:84px">LEÃO</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:3"></div><div class="bar g" style="flex:3"></div><div class="bar gr" style="flex:3"></div></div></div>
+<div class="row" style="align-items:center"><span style="width:84px">KILDARE</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:2"></div><div class="bar g" style="flex:4"></div><div class="bar gr" style="flex:4"></div></div></div>
+<div class="lb">■ internação ■ transferência ■ encaminhamento</div></div></div></div>
+<div class="bx"><div style="display:grid;grid-template-columns:1.5fr repeat(9,1fr);gap:3px 6px;font-size:11.5px"><b>Plantonista</b><b>Plant.</b><b>/mês</b><b>% Not.</b><b>Atend.</b><b>At./pl.</b><b>%Int</b><b>%Tr</b><b>%Enc</b><b>Óbitos</b>
+<span>2T TORRES</span><span>n</span><span>n</span><span>n%</span><span>n</span><span>n</span><span>n%</span><span>n%</span><span>n%</span><span>n</span>
+<span>2T LEÃO</span><span>n</span><span>n</span><span>n%</span><span>n</span><span>n</span><span>n%</span><span>n%</span><span>n%</span><span>n</span>
+<span>…</span></div><div class="lb" style="margin-top:4px">colunas ordenáveis · linha "Total / Geral" · + coluna "dupla mais frequente"</div></div>
+<div class="row">
+<div class="bx col" style="flex:1.4"><b style="font-size:13px">Plantões 12h por mês (plantonista × mês)</b>
+<div style="display:grid;grid-template-columns:70px repeat(7,1fr);gap:2px;font-size:11px">
+<span></span><span>JAN</span><span>FEV</span><span>MAR</span><span>ABR</span><span>MAI</span><span>JUN</span><span>JUL</span>
+<span>TORRES</span><span style="background:#121C4B;height:16px"></span><span style="background:#4a5280"></span><span style="background:#121C4B"></span><span style="background:#8a8fb0"></span><span style="background:#4a5280"></span><span style="background:#121C4B"></span><span style="background:#ccd"></span>
+<span>LEÃO</span><span style="background:#8a8fb0;height:16px"></span><span style="background:#ccd"></span><span style="background:#4a5280"></span><span style="background:#121C4B"></span><span style="background:#8a8fb0"></span><span style="background:#4a5280"></span><span style="background:#8a8fb0"></span>
+<span>BARRETO</span><span style="background:#4a5280;height:16px"></span><span style="background:#4a5280"></span><span style="background:#8a8fb0"></span><span style="background:#ccd"></span><span style="background:#121C4B"></span><span style="background:#8a8fb0"></span><span style="background:#4a5280"></span>
+</div><div class="lb">cor = nº de plantões · número na célula ao passar o mouse</div></div>
+<div class="bx col" style="flex:1"><b style="font-size:13px">Duplas mais frequentes</b><div class="ph" style="height:76px">top 5 duplas · nº plantões juntos · % resolut. da dupla</div></div></div>
+<div class="lb" style="border-top:1.4px dashed #999;padding-top:4px">Fonte: tb_plantoes (campo plantonistas explodido) · tb_pacientes_eventos · período filtrado · apuração de DD/MM/AAAA</div>
+<div class="note">Nota no rodapé: cada plantão tem 2 plantonistas e o desfecho é atribuído aos dois. Clique em card, barra, linha ou célula do heatmap = filtro "Plantonista" em todas as abas.</div>
+</div></div></div>
+
+</div>
+<p class="dv-next">Próximos passos: "aplicar o padrão às abas Geral e Clínico" · "trocar 'Duplas' pela matriz de <a class="dv-oid" href="#1j">1j</a>" · "partir para hi-fi com dados reais"</p>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Página Supervisores na moldura <a class="dv-oid" href="#1b">1b</a>, combinando <a class="dv-oid" href="#1f">1f</a> + <a class="dv-oid" href="#1h">1h</a></span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a"><div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Scorecards no topo → ranking + tabela embaixo</div>
+<div class="dv-card" style="width:720px;padding:14px"><div class="col">
+<div class="row" style="justify-content:space-between;align-items:center"><div class="ph" style="width:44px;height:30px">MB</div><b style="font-size:17px;color:#121C4B">PRONTO-ATENDIMENTO · HNRe</b><div class="ph" style="width:44px;height:30px">brasão</div></div>
+<div class="row" style="gap:0;font-size:13px;border-bottom:1.6px solid #222"><span style="padding:2px 10px">Geral</span><span style="padding:2px 10px">Clínico</span><span style="padding:2px 10px;border:1.6px solid #222;border-bottom:none;background:#fff;font-weight:700">Supervisores</span><span style="padding:2px 10px">Plantonistas</span><span style="padding:2px 10px">Escala</span><span style="padding:2px 10px">Pivô</span></div>
+<div class="row" style="flex-wrap:wrap;gap:5px;align-items:center"><span class="chip">jan–jul/2026 ▾</span><span class="chip">Turno ▾</span><span class="chip">Especialidade ▾</span><span class="chip">Mín. 10 plantões ▾</span><span class="lb">Ativos:</span><span class="chip on">Noturno ✕</span></div>
+<div class="row"><div class="bx hl" style="flex:1.4"><div class="lb">% RESOLUTIVIDADE · SUPERVISÃO MÉDICA</div><div class="row" style="align-items:baseline;gap:8px"><div class="big" style="font-size:34px;color:#079558">92,9%</div><span class="lb">▲ 0,6pp · banda Bom</span></div><div class="ph" style="height:16px;margin-top:4px">régua de limiar: Ruim · Atenção · Bom · Excelente</div></div>
+<div class="bx" style="flex:1"><div class="lb">SUPERVISORES ATIVOS</div><div class="big">n</div></div><div class="bx" style="flex:1"><div class="lb">PLANTÕES 12h / MÊS</div><div class="big">n,n</div><div class="lb">média por supervisor</div></div><div class="bx" style="flex:1"><div class="lb">SEM SUPERVISOR</div><div class="big">n</div><div class="lb">plantões (mar/2025…)</div></div></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+<div class="bx col hl" style="gap:3px;border-left:5px solid #079558"><b style="font-size:13px">1T VALÉRIA</b><div class="big" style="font-size:22px;color:#079558">95,1%</div><div class="lb">▲ 1,2pp · Excelente</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #079558"><b style="font-size:13px">CT CAMPOS</b><div class="big" style="font-size:22px;color:#079558">93,8%</div><div class="lb">— 0,0pp · Bom</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #FAB932"><b style="font-size:13px">CT NÉLIA NOGUEIRA</b><div class="big" style="font-size:22px">91,0%</div><div class="lb">▼ 0,8pp · Atenção</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #85200c"><b style="font-size:13px">CT FRANÇA</b><div class="big" style="font-size:22px;color:#85200c">87,4%</div><div class="lb">▼ 2,3pp · Ruim</div><div class="ph" style="height:22px">sparkline</div><div class="lb">n plant. · n/mês</div></div>
+</div>
+<div class="lb">◂ ▸ carrossel / "ver todos (n)" — ordem = % resolutividade</div>
+<div class="row">
+<div class="bx col" style="flex:1"><b style="font-size:13px">% Resolutividade por supervisor</b>
+<div class="col" style="gap:4px;font-size:12px">
+<div class="row hl" style="align-items:center"><span style="width:110px">1T VALÉRIA</span><div class="bar" style="width:60%;background:#079558"></div><span>95,1%</span></div>
+<div class="row" style="align-items:center"><span style="width:110px">CT CAMPOS</span><div class="bar" style="width:55%;background:#079558"></div><span>93,8%</span></div>
+<div class="row" style="align-items:center"><span style="width:110px">1T SANTIAGO</span><div class="bar" style="width:50%"></div><span>92,2%</span></div>
+<div class="row" style="align-items:center"><span style="width:110px">CT NÉLIA NOG.</span><div class="bar" style="width:46%;background:#FAB932"></div><span>91,0%</span></div>
+<div class="row" style="align-items:center"><span style="width:110px">CT FRANÇA</span><div class="bar" style="width:36%;background:#85200c"></div><span>87,4%</span></div>
+<div class="lb">-- média geral · faixas de banda ao fundo</div></div></div>
+<div class="bx col" style="flex:1"><b style="font-size:13px">Composição dos desfechos (100%)</b>
+<div class="col" style="gap:4px;font-size:12px">
+<div class="row" style="align-items:center"><span style="width:84px">VALÉRIA</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:3"></div><div class="bar g" style="flex:2"></div><div class="bar gr" style="flex:3"></div></div></div>
+<div class="row" style="align-items:center"><span style="width:84px">CAMPOS</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:3"></div><div class="bar g" style="flex:3"></div><div class="bar gr" style="flex:3"></div></div></div>
+<div class="row" style="align-items:center"><span style="width:84px">FRANÇA</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:2"></div><div class="bar g" style="flex:4"></div><div class="bar gr" style="flex:4"></div></div></div>
+<div class="lb">■ internação ■ transferência ■ encaminhamento</div></div></div></div>
+<div class="bx"><div style="display:grid;grid-template-columns:1.6fr repeat(8,1fr);gap:3px 6px;font-size:11.5px"><b>Supervisor</b><b>Plant.</b><b>/mês</b><b>% Not.</b><b>Atend.</b><b>At./pl.</b><b>%Int</b><b>%Tr</b><b>%Enc</b>
+<span>1T VALÉRIA</span><span>n</span><span>n</span><span>n%</span><span>n</span><span>n</span><span>n%</span><span>n%</span><span>n%</span>
+<span>CT CAMPOS</span><span>n</span><span>n</span><span>n%</span><span>n</span><span>n</span><span>n%</span><span>n%</span><span>n%</span>
+<span>…</span></div><div class="lb" style="margin-top:4px">colunas ordenáveis · + óbitos · linha "Total / Geral"</div></div>
+<div class="lb" style="border-top:1.4px dashed #999;padding-top:4px">Fonte: tb_plantoes · tb_pacientes_eventos · período filtrado · apuração de DD/MM/AAAA</div>
+<div class="note">Clique em scorecard, barra ou linha da tabela → filtro "Supervisor" em todas as abas (destaque ouro mostra o selecionado).</div>
+</div></div></div>
+
+<div class="dv-opt" id="2b"><div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Ranking à esquerda, scorecard do selecionado à direita (mestre-detalhe)</div>
+<div class="dv-card" style="width:720px;padding:14px"><div class="col">
+<div class="row" style="justify-content:space-between;align-items:center"><div class="ph" style="width:44px;height:30px">MB</div><b style="font-size:17px;color:#121C4B">PRONTO-ATENDIMENTO · HNRe</b><div class="ph" style="width:44px;height:30px">brasão</div></div>
+<div class="row" style="gap:0;font-size:13px;border-bottom:1.6px solid #222"><span style="padding:2px 10px">Geral</span><span style="padding:2px 10px">Clínico</span><span style="padding:2px 10px;border:1.6px solid #222;border-bottom:none;background:#fff;font-weight:700">Supervisores</span><span style="padding:2px 10px">Plantonistas</span><span style="padding:2px 10px">Escala</span><span style="padding:2px 10px">Pivô</span></div>
+<div class="row" style="flex-wrap:wrap;gap:5px"><span class="chip">jan–jul/2026 ▾</span><span class="chip">Turno ▾</span><span class="chip">Especialidade ▾</span><span class="chip">Mín. 10 plantões ▾</span></div>
+<div class="row">
+<div class="col" style="flex:1.1">
+<div class="bx hl"><div class="lb">% RESOLUTIVIDADE · SUPERVISÃO MÉDICA</div><div class="big" style="font-size:34px;color:#079558">92,9%</div><div class="lb">▲ 0,6pp vs período anterior · Bom</div></div>
+<div class="bx col"><b style="font-size:13px">Ranking (clique para detalhar)</b>
+<div style="display:grid;grid-template-columns:1.4fr 1.6fr .6fr .6fr;gap:4px 6px;font-size:11.5px;align-items:center"><b>Supervisor</b><b>% Resolut. ▾</b><b>Plant.</b><b>/mês</b>
+<span style="font-weight:700;background:#fff3cf">1T VALÉRIA</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:70%;background:#079558"></div>95,1</div><span>n</span><span>n</span>
+<span>CT CAMPOS</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:64%;background:#079558"></div>93,8</div><span>n</span><span>n</span>
+<span>1T SANTIAGO</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:58%"></div>92,2</div><span>n</span><span>n</span>
+<span>1T MÔNICA V.</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:55%"></div>91,8</div><span>n</span><span>n</span>
+<span>CT NÉLIA NOG.</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:50%;background:#FAB932"></div>91,0</div><span>n</span><span>n</span>
+<span>CT FRANÇA</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:38%;background:#85200c"></div>87,4</div><span>n</span><span>n</span>
+</div></div></div>
+<div class="bx col" style="flex:1;border-left:5px solid #079558">
+<div class="row" style="justify-content:space-between;align-items:baseline"><b style="font-size:15px;color:#121C4B">1T VALÉRIA</b><span class="lb">Excelente</span></div>
+<div class="row"><div style="flex:1"><div class="lb">RESOLUTIVIDADE</div><div class="big" style="color:#079558">95,1%</div><div class="lb">▲ 1,2pp</div></div><div style="flex:1"><div class="lb">PLANTÕES 12h</div><div class="big">n</div><div class="lb">n,n / mês</div></div></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"><div class="bx"><div class="lb">% INT.</div><b>n%</b></div><div class="bx"><div class="lb">% TRANSF.</div><b>n%</b></div><div class="bx"><div class="lb">% ENC.</div><b>n%</b></div></div>
+<div class="ph" style="height:64px">linha mensal: % resolut. do supervisor (navy) × média geral (ouro)</div>
+<div class="ph" style="height:46px">top 3 especialidades / CID que mais geraram transferência</div>
+<div class="ph" style="height:34px">D × N: atend./plantão e resolutividade</div>
+</div></div>
+<div class="lb" style="border-top:1.4px dashed #999;padding-top:4px">Fonte: tb_plantoes · tb_pacientes_eventos · período filtrado · apuração de DD/MM/AAAA</div>
+<div class="note">Seleção na tabela abre o scorecard; botão "aplicar como filtro global" propaga para as outras abas. Menos cards, mais profundidade por pessoa.</div>
+</div></div></div>
+
+</div>
+<p class="dv-next">Próximos passos: "aplicar <a class="dv-oid" href="#2a">2a</a> também à aba Plantonistas" · "usar <a class="dv-oid" href="#2b">2b</a> com a tabela completa de <a class="dv-oid" href="#2a">2a</a> embaixo" · "partir para hi-fi com dados reais"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Dashboard do Pronto-Atendimento HNRe — arquitetura, páginas e filtros cruzados (fonte: tb_plantoes · tb_pacientes_eventos · CID-10)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1s" style="width:100%"><div class="dv-olabel"><a class="dv-oid" href="#1s">1s</a>Spec curta — definições que o painel precisa fixar antes do build</div>
+<div class="dv-card" style="padding:18px 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;font-size:15px;line-height:1.35">
+<div class="col"><b style="color:#121C4B">Unidades de análise</b><span>1 linha de tb_plantoes = 1 plantão de 12h (Diurno/Noturno). Eventos ligam por id_plantao.</span><span>Plantonistas: campo "plantonistas" é texto com 2 nomes separados por vírgula → explodir em 1 linha por médico (cada um recebe o plantão inteiro).</span></div>
+<div class="col"><b style="color:#121C4B">Resolutividade (destaque)</b><span>% Resolutividade = 1 − (transferências + encaminhamentos externos) ÷ atendimentos.</span><span>Internação no HNRe conta como resolvida. Óbito exibido à parte.</span><div class="note">Decisão pendente: encaminhamento ao próprio HNRe (108 casos na rede) conta como resolvido?</div></div>
+<div class="col"><b style="color:#121C4B">Qualidade de dados</b><span>supervisor_medico vazio no início da série (mar/2025…) → filtro "sem supervisor" explícito.</span><span>CID repetido com descrições diferentes (J18.9, N39.0, A41.9) → agrupar pelo código, descrição da aba CID-10.</span><span>Nomes de enfermeiras com grafias variantes (EMANUELA/EMANUELLA/EMANUELLE).</span></div>
+<div class="col"><b style="color:#121C4B">Filtros globais</b><span>Período · Turno · Supervisor médico · Plantonista · Especialidade · Tipo de evento · Destino · Faixa etária.</span><span>Clique em qualquer barra/fatia/célula = adiciona filtro (chip); clique de novo remove; Shift = soma seleção.</span></div>
+</div></div>
+
+<div class="grp">A · Moldura e navegação</div>
+
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Menu lateral fixo + barra de filtros no topo</div>
+<div class="dv-card" style="width:420px;padding:12px"><div class="row" style="height:250px">
+<div class="bx col" style="width:92px;font-size:13px;gap:6px"><div class="ph" style="height:30px">marca MB</div><b>Visão geral</b><span>Perfil clínico</span><span style="background:#121C4B;color:#fff;padding:0 4px;border-radius:3px">Supervisores</span><span>Plantonistas</span><span>Escala</span><span>Tabela dinâmica</span></div>
+<div class="col" style="flex:1"><div class="bx row" style="flex-wrap:wrap;gap:5px"><span class="chip">Período ▾</span><span class="chip">Turno ▾</span><span class="chip">Sup. médico ▾</span><span class="chip">+ filtros</span></div>
+<div class="row" style="flex-wrap:wrap;gap:5px;font-size:12px"><span>Ativos:</span><span class="chip on">CT FRANÇA ✕</span><span class="chip on">Noturno ✕</span><span style="text-decoration:underline">limpar</span></div>
+<div class="ph" style="flex:1">conteúdo da página</div></div></div>
+<div class="note" style="margin-top:8px">Melhor para 6 páginas. Chips de filtro persistem entre páginas.</div></div></div>
+
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Abas no topo (padrão Looker/Power BI)</div>
+<div class="dv-card" style="width:420px;padding:12px"><div class="col" style="height:250px">
+<div class="row" style="justify-content:space-between;align-items:center"><div class="ph" style="width:40px;height:26px">MB</div><b style="font-size:16px;color:#121C4B">PRONTO-ATENDIMENTO · HNRe</b><div class="ph" style="width:40px;height:26px">brasão</div></div>
+<div class="row" style="gap:0;font-size:13px;border-bottom:1.6px solid #222"><span style="padding:2px 8px">Geral</span><span style="padding:2px 8px">Clínico</span><span style="padding:2px 8px;border:1.6px solid #222;border-bottom:none;background:#fff">Supervisores</span><span style="padding:2px 8px">Plantonistas</span><span style="padding:2px 8px">Escala</span><span style="padding:2px 8px">Pivô</span></div>
+<div class="row" style="gap:5px"><span class="chip">jan–jul/2026 ▾</span><span class="chip">Turno ▾</span><span class="chip">Espec. ▾</span></div>
+<div class="ph" style="flex:1">conteúdo</div></div>
+<div class="note" style="margin-top:8px">Ganha largura útil; bom para projetar em CONGES.</div></div></div>
+
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Painel de filtros recolhível à direita</div>
+<div class="dv-card" style="width:420px;padding:12px"><div class="row" style="height:250px">
+<div class="col" style="flex:1"><div class="row" style="gap:6px;font-size:13px"><b>Geral</b>·<span>Clínico</span>·<span>Sup.</span>·<span>Plant.</span>·<span>Escala</span>·<span>Pivô</span></div><div class="ph" style="flex:1">conteúdo</div></div>
+<div class="bx col" style="width:120px;font-size:12px;gap:5px"><b>Filtros ⟩</b><span>Período</span><div class="ph" style="height:18px">slider meses</div><span>Turno ☐D ☑N</span><span>Supervisor</span><div class="ph" style="height:34px">lista c/ busca</div><span>Plantonista</span><div class="ph" style="height:34px">lista c/ busca</div></div></div>
+<div class="note" style="margin-top:8px">Mais filtros visíveis; ocupa espaço do gráfico.</div></div></div>
+
+<div class="grp">B · Página 1 — Visão geral</div>
+
+<div class="dv-opt" id="1d"><div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>KPIs + tendência mensal + desfechos</div>
+<div class="dv-card" style="width:600px;padding:12px"><div class="col">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+<div class="bx"><div class="lb">ATENDIMENTOS</div><div class="big">12.769</div><div class="lb">▲ 4,1% vs mês ant.</div></div>
+<div class="bx hl"><div class="lb">% RESOLUTIVIDADE</div><div class="big" style="color:#079558">92,9%</div><div class="lb">meta ≥ 90%</div></div>
+<div class="bx"><div class="lb">PLANTÕES 12h</div><div class="big">1.058</div><div class="lb">12,1 atend./plantão</div></div>
+<div class="bx"><div class="lb">ÓBITOS</div><div class="big">n</div><div class="lb">taxa ‰ atend.</div></div>
+<div class="bx"><div class="lb">INTERNAÇÕES</div><div class="big">443</div><div class="lb">3,5%</div></div>
+<div class="bx"><div class="lb">TRANSFERÊNCIAS</div><div class="big">452</div><div class="lb">3,5%</div></div>
+<div class="bx"><div class="lb">ENCAMINHAMENTOS</div><div class="big">n</div><div class="lb">%</div></div>
+<div class="bx"><div class="lb">MA AFAST./BAIXADOS</div><div class="big">n / n</div><div class="lb">ocup. enf. média</div></div></div>
+<div class="row"><div class="bx col" style="flex:2"><b style="font-size:13px">Atendimentos e % resolutividade por mês</b><div class="ph" style="height:110px">barras navy (atend.) + linha ouro (% resolut.) · faixa verde ≥90%</div></div>
+<div class="bx col" style="flex:1"><b style="font-size:13px">Desfechos</b><div class="ph" style="height:110px;border-radius:50%">rosca<br>alta · int. · transf. · enc. · óbito</div></div></div>
+<div class="row"><div class="bx col" style="flex:1"><b style="font-size:13px">Diurno × Noturno</b><div class="ph" style="height:60px">barras agrupadas: taxas por turno</div></div><div class="bx col" style="flex:1"><b style="font-size:13px">Dia da semana</b><div class="ph" style="height:60px">média atend./plantão (seg 15,4 → dom 6,8)</div></div></div>
+<div class="note">Clique num mês → filtra todas as páginas. Clique numa fatia da rosca → filtra tipo de evento.</div>
+</div></div></div>
+
+<div class="grp">C · Página 2 — Perfil clínico (especialidade · CID · destino)</div>
+
+<div class="dv-opt" id="1e"><div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Especialidade × desfecho + Top CID + rede de destino</div>
+<div class="dv-card" style="width:600px;padding:12px"><div class="col">
+<div class="row"><div class="bx col" style="flex:1.3"><b style="font-size:13px">Eventos por especialidade (100% empilhado)</b>
+<div class="col" style="gap:4px;font-size:12px">
+<div class="row" style="align-items:center"><span style="width:84px">CLÍN. MÉDICA</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:4"></div><div class="bar g" style="flex:3"></div><div class="bar gr" style="flex:3"></div></div></div>
+<div class="row" style="align-items:center"><span style="width:84px">ORTOPEDIA</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:1"></div><div class="bar g" style="flex:2"></div><div class="bar gr" style="flex:7"></div></div></div>
+<div class="row" style="align-items:center"><span style="width:84px">PEDIATRIA</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:2"></div><div class="bar g" style="flex:3"></div><div class="bar gr" style="flex:5"></div></div></div>
+<div class="row" style="align-items:center"><span style="width:84px">CARDIOLOGIA</span><div class="row" style="flex:1;gap:1px"><div class="bar" style="flex:5"></div><div class="bar g" style="flex:3"></div><div class="bar gr" style="flex:2"></div></div></div>
+<div class="lb">■ internação ■ transferência ■ encaminhamento · +3 espec.</div></div></div>
+<div class="bx col" style="flex:1"><b style="font-size:13px">Pareto especialidades</b><div class="ph" style="height:96px">barras + % acumulado (80% em 4 espec.)</div></div></div>
+<div class="bx col"><b style="font-size:13px">Top 10 CID (agrupado por código)</b>
+<div style="display:grid;grid-template-columns:60px 1fr 50px 70px 80px;gap:2px 8px;font-size:12px"><b>CID</b><b>Descrição</b><b>Casos</b><b>% int.</b><b>% transf.</b>
+<span>J18.9</span><span>Pneumonia NE</span><span>34</span><span>▓▓░</span><span>▓░░</span>
+<span>N39.0</span><span>ITU loc. NE</span><span>33</span><span>▓▓░</span><span>▓░░</span>
+<span>A41.9</span><span>Septicemia NE</span><span>24</span><span>▓░░</span><span>▓▓▓</span>
+<span>…</span><span>capítulo CID ▸ código (drill-down)</span><span></span><span></span><span></span></div></div>
+<div class="row"><div class="bx col" style="flex:1"><b style="font-size:13px">Destinos (transf. vs enc.)</b><div class="ph" style="height:70px">barras horizontais: H. Esperança Olinda 330 · Recife 208 …</div></div>
+<div class="bx col" style="flex:1"><b style="font-size:13px">Pirâmide etária × sexo</b><div class="ph" style="height:70px">pediátrico · adulto · idoso (69% ≥60)</div></div></div>
+<div class="note">Clique em especialidade → Top CID e destinos se recalculam. Clique em CID → lista de pacientes (quadro clínico) num drawer.</div>
+</div></div></div>
+
+<div class="grp">D · Página 3 — Supervisores médicos (resolutividade em destaque)</div>
+
+<div class="dv-opt" id="1f"><div class="dv-olabel"><a class="dv-oid" href="#1f">1f</a>Ranking de resolutividade + tabela de taxas</div>
+<div class="dv-card" style="width:520px;padding:12px"><div class="col">
+<div class="row"><div class="bx hl" style="flex:1"><div class="lb">RESOLUTIVIDADE MÉDIA</div><div class="big" style="color:#079558">92,9%</div></div><div class="bx" style="flex:1"><div class="lb">SUPERVISORES ATIVOS</div><div class="big">n</div></div><div class="bx" style="flex:1"><div class="lb">PLANTÕES/MÊS (méd.)</div><div class="big">n,n</div></div></div>
+<div class="bx col"><b style="font-size:13px">% Resolutividade por supervisor (ordenado)</b>
+<div class="col" style="gap:4px;font-size:12px">
+<div class="row" style="align-items:center"><span style="width:110px">1T VALÉRIA</span><div class="bar" style="width:62%;background:#079558"></div><span>95,1%</span></div>
+<div class="row" style="align-items:center"><span style="width:110px">CT CAMPOS</span><div class="bar" style="width:58%;background:#079558"></div><span>93,8%</span></div>
+<div class="row" style="align-items:center"><span style="width:110px">CT NÉLIA NOGUEIRA</span><div class="bar" style="width:52%"></div><span>91,0%</span></div>
+<div class="row" style="align-items:center"><span style="width:110px">CT FRANÇA</span><div class="bar" style="width:42%;background:#85200c"></div><span>87,4%</span></div>
+<div class="lb">-- linha tracejada = média geral · cores = banda Excelente/Bom/Atenção/Ruim</div></div></div>
+<div class="bx"><div style="display:grid;grid-template-columns:1.6fr repeat(6,1fr);gap:2px 6px;font-size:11.5px"><b>Supervisor</b><b>Plant.</b><b>/mês</b><b>Atend.</b><b>%Int</b><b>%Transf</b><b>%Enc</b>
+<span>1T VALÉRIA</span><span>n</span><span>n</span><span>n</span><span>n%</span><span>n%</span><span>n%</span>
+<span>CT CAMPOS</span><span>n</span><span>n</span><span>n</span><span>n%</span><span>n%</span><span>n%</span>
+<span>…</span></div><div class="lb" style="margin-top:4px">+ colunas: óbitos, atend./plantão, % noturno</div></div>
+<div class="note">Clique numa barra → todas as páginas filtram aquele supervisor.</div>
+</div></div></div>
+
+<div class="dv-opt" id="1g"><div class="dv-olabel"><a class="dv-oid" href="#1g">1g</a>Dispersão volume × resolutividade (quadrantes)</div>
+<div class="dv-card" style="width:420px;padding:12px"><div class="col">
+<div class="bx col"><b style="font-size:13px">Cada ponto = um supervisor</b>
+<div style="position:relative;height:220px;border-left:1.6px solid #222;border-bottom:1.6px solid #222;margin:4px 0 0 18px">
+<div style="position:absolute;left:50%;top:0;bottom:0;border-left:1.4px dashed #999"></div><div style="position:absolute;top:45%;left:0;right:0;border-top:1.4px dashed #999"></div>
+<span class="lb" style="position:absolute;right:4px;top:4px">alto vol. · alta resol.</span><span class="lb" style="position:absolute;left:4px;bottom:4px">baixo vol. · baixa resol.</span>
+<div style="position:absolute;left:70%;top:20%;width:14px;height:14px;border-radius:50%;background:#079558"></div>
+<div style="position:absolute;left:30%;top:30%;width:10px;height:10px;border-radius:50%;background:#121C4B"></div>
+<div style="position:absolute;left:62%;top:62%;width:16px;height:16px;border-radius:50%;background:#85200c"></div>
+<div style="position:absolute;left:44%;top:38%;width:12px;height:12px;border-radius:50%;background:#121C4B"></div>
+</div><div class="row lb" style="justify-content:space-between;margin-left:18px"><span>↑ % resolutividade</span><span>atendimentos/plantão →</span></div></div>
+<div class="note">Tamanho do ponto = nº de plantões. Separa "resolve pouco porque atende muito" de desempenho real. Toggle: ajustar por mix de especialidade.</div>
+</div></div></div>
+
+<div class="dv-opt" id="1h"><div class="dv-olabel"><a class="dv-oid" href="#1h">1h</a>Scorecards por supervisor (small multiples)</div>
+<div class="dv-card" style="width:420px;padding:12px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div class="bx col" style="gap:3px;border-left:5px solid #079558"><b style="font-size:13px">1T VALÉRIA</b><div class="big" style="font-size:22px;color:#079558">95,1%</div><div class="lb">resolut. · ▲ 1,2pp</div><div class="ph" style="height:26px">sparkline 6 meses</div><div class="lb">n plant. · n/mês · Int n% · Tr n% · Enc n%</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #079558"><b style="font-size:13px">CT CAMPOS</b><div class="big" style="font-size:22px;color:#079558">93,8%</div><div class="lb">resolut. · — 0,0pp</div><div class="ph" style="height:26px">sparkline</div><div class="lb">n plant. · …</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #FAB932"><b style="font-size:13px">CT NÉLIA NOGUEIRA</b><div class="big" style="font-size:22px">91,0%</div><div class="lb">▼ 0,8pp</div><div class="ph" style="height:26px">sparkline</div></div>
+<div class="bx col" style="gap:3px;border-left:5px solid #85200c"><b style="font-size:13px">CT FRANÇA</b><div class="big" style="font-size:22px;color:#85200c">87,4%</div><div class="lb">▼ 2,3pp</div><div class="ph" style="height:26px">sparkline</div></div>
+</div><div class="note" style="margin-top:8px">Linguagem do IndCard do deck CONGES — exportável direto para o slide mensal.</div></div></div>
+
+<div class="grp">E · Página 4 — Plantonistas</div>
+
+<div class="dv-opt" id="1i"><div class="dv-olabel"><a class="dv-oid" href="#1i">1i</a>Tabela-ranking com barras embutidas</div>
+<div class="dv-card" style="width:560px;padding:12px"><div class="col">
+<div class="row"><div class="bx hl" style="flex:1"><div class="lb">RESOLUTIVIDADE MÉDIA (PLANT.)</div><div class="big" style="color:#079558">n,n%</div></div><div class="bx" style="flex:1"><div class="lb">PLANTONISTAS</div><div class="big">n</div></div><div class="bx" style="flex:1"><div class="lb">PLANTÕES 12h / MÉDICO / MÊS</div><div class="big">n,n</div></div></div>
+<div class="bx"><div style="display:grid;grid-template-columns:1.3fr .7fr .7fr .7fr 1.4fr .7fr .7fr .7fr;gap:4px 6px;font-size:11.5px;align-items:center"><b>Plantonista</b><b>Plant.</b><b>/mês</b><b>% Not.</b><b>% Resolutividade ▾</b><b>%Int</b><b>%Tr</b><b>%Enc</b>
+<span>2T TORRES</span><span>n</span><span>n</span><span>n%</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:70%;background:#079558"></div>96%</div><span>n</span><span>n</span><span>n</span>
+<span>1T BARRETO</span><span>n</span><span>n</span><span>n%</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:60%"></div>92%</div><span>n</span><span>n</span><span>n</span>
+<span>1T KILDARE</span><span>n</span><span>n</span><span>n%</span><div class="row" style="align-items:center;gap:4px"><div class="bar" style="width:45%;background:#85200c"></div>86%</div><span>n</span><span>n</span><span>n</span>
+<span>…</span></div></div>
+<div class="row"><div class="bx col" style="flex:1"><b style="font-size:13px">Plantões por mês (heatmap médico × mês)</b><div class="ph" style="height:70px">grade: cor = nº de plantões 12h</div></div><div class="bx col" style="flex:1"><b style="font-size:13px">Mín. de plantões p/ entrar no ranking</b><div class="ph" style="height:70px">slider (ex.: ≥ 10) — evita taxa com n pequeno</div></div></div>
+<div class="note">Dois plantonistas por turno: o desfecho do plantão é atribuído aos dois (sinalizar no rodapé da tabela).</div>
+</div></div></div>
+
+<div class="dv-opt" id="1j"><div class="dv-olabel"><a class="dv-oid" href="#1j">1j</a>Matriz de duplas e supervisor × plantonista</div>
+<div class="dv-card" style="width:420px;padding:12px"><div class="col">
+<div class="bx col"><b style="font-size:13px">Resolutividade por dupla de plantonistas</b>
+<div style="display:grid;grid-template-columns:70px repeat(5,1fr);gap:2px;font-size:11px">
+<span></span><span>TORRES</span><span>BARRETO</span><span>LEÃO</span><span>KILDARE</span><span>COSTA</span>
+<span>TORRES</span><span style="background:#ddd"></span><span style="background:#079558;height:20px"></span><span style="background:#7fc4a3"></span><span style="background:#f3d38a"></span><span style="background:#eee"></span>
+<span>BARRETO</span><span></span><span style="background:#ddd"></span><span style="background:#f3d38a"></span><span style="background:#079558"></span><span style="background:#c98e83"></span>
+<span>LEÃO</span><span></span><span></span><span style="background:#ddd;height:20px"></span><span style="background:#7fc4a3"></span><span style="background:#eee"></span>
+</div><div class="lb">cor = % resolut. · cinza claro = &lt; 5 plantões juntos</div></div>
+<div class="bx col"><b style="font-size:13px">Supervisor × plantonista</b><div class="ph" style="height:70px">mesma matriz, linhas = supervisores</div></div>
+<div class="note">Útil para escala: quais composições resolvem mais. Clique numa célula → filtra os plantões daquela dupla.</div>
+</div></div></div>
+
+<div class="grp">F · Página 5 — Escala e plantões</div>
+
+<div class="dv-opt" id="1k"><div class="dv-olabel"><a class="dv-oid" href="#1k">1k</a>Calendário-heatmap + ocupação da enfermaria</div>
+<div class="dv-card" style="width:520px;padding:12px"><div class="col">
+<div class="bx col"><b style="font-size:13px">Calendário (dia × turno D/N)</b><div class="ph" style="height:90px">quadradinhos por dia; métrica selecionável: atendimentos · transf. · % resolut. · óbitos</div></div>
+<div class="row"><div class="bx col" style="flex:1"><b style="font-size:13px">Internados na enfermaria</b><div class="ph" style="height:70px">linha: total · ala A · ala B</div></div><div class="bx col" style="flex:1"><b style="font-size:13px">MA afastados / baixados</b><div class="ph" style="height:70px">barras mensais</div></div></div>
+<div class="bx col"><b style="font-size:13px">Lista de plantões (detalhe)</b><div class="ph" style="height:46px">data · turno · sup. enf. · sup. méd. · plantonistas · atend. · int · tr · enc · óbitos</div></div>
+<div class="note">Clique num dia → lista de eventos daquele plantão.</div>
+</div></div></div>
+
+<div class="grp">G · Página 6 — Tabela dinâmica</div>
+
+<div class="dv-opt" id="1l"><div class="dv-olabel"><a class="dv-oid" href="#1l">1l</a>Pivô livre (linhas · colunas · valor)</div>
+<div class="dv-card" style="width:520px;padding:12px"><div class="col">
+<div class="row" style="flex-wrap:wrap;gap:5px;font-size:12px"><span class="lb">Linhas:</span><span class="chip on">Supervisor médico</span><span class="lb">Colunas:</span><span class="chip on">Mês</span><span class="lb">Valor:</span><span class="chip on">% Resolutividade ▾</span><span class="chip">+ campo</span></div>
+<div class="bx"><div style="display:grid;grid-template-columns:1.4fr repeat(5,1fr);gap:3px 6px;font-size:11.5px"><b></b><b>JAN</b><b>FEV</b><b>MAR</b><b>ABR</b><b>Total</b>
+<span>1T VALÉRIA</span><span style="background:#d9efe3">n%</span><span>n%</span><span style="background:#d9efe3">n%</span><span>n%</span><b>n%</b>
+<span>CT CAMPOS</span><span>n%</span><span style="background:#f8e3df">n%</span><span>n%</span><span>n%</span><b>n%</b>
+<span>…</span></div></div>
+<div class="lb">Valores: contagem de eventos · atendimentos · plantões · % int./tr./enc. · resolutividade · óbitos · idade média</div>
+<div class="row" style="gap:6px"><span class="chip">⇩ CSV</span><span class="chip">⇩ slide CONGES</span></div>
+</div></div></div>
+
+<div class="grp">H · Interação — filtro cruzado ao clique (storyboard)</div>
+
+<div class="dv-opt" id="1m"><div class="dv-olabel"><a class="dv-oid" href="#1m">1m</a>3 quadros: clique → chip → todas as páginas</div>
+<div class="dv-card" style="width:760px;padding:12px"><div class="row">
+<div class="col" style="flex:1"><b style="font-size:13px">① Clica "ORTOPEDIA" na barra</b><div class="bx col" style="gap:4px"><div class="row" style="align-items:center;font-size:12px"><span style="width:70px">CLÍN. MÉD.</span><div class="bar" style="width:70%;opacity:.35"></div></div><div class="row hl" style="align-items:center;font-size:12px"><span style="width:70px">ORTOPEDIA</span><div class="bar" style="width:40%"></div></div><div class="row" style="align-items:center;font-size:12px"><span style="width:70px">PEDIATRIA</span><div class="bar" style="width:35%;opacity:.35"></div></div></div></div>
+<div class="col" style="flex:1"><b style="font-size:13px">② Chip aparece; KPIs recalculam</b><div class="bx col" style="gap:5px"><div class="row"><span class="chip on">Ortopedia ✕</span></div><div class="row"><div class="bx" style="flex:1"><div class="lb">RESOL.</div><b>n%</b></div><div class="bx" style="flex:1"><div class="lb">ENC.</div><b>n</b></div></div><div class="lb">demais gráficos esmaecem o resto</div></div></div>
+<div class="col" style="flex:1"><b style="font-size:13px">③ Vai à página Supervisores</b><div class="bx col" style="gap:5px"><div class="row"><span class="chip on">Ortopedia ✕</span></div><div class="lb">ranking de resolutividade só p/ casos ortopédicos</div><div class="ph" style="height:30px">barras filtradas</div></div></div>
+</div></div></div>
+
+</div>
+<p class="dv-next">Próximos passos: "seguir com <a class="dv-oid" href="#1a">1a</a> e, para supervisores, combinar <a class="dv-oid" href="#1f">1f</a> + <a class="dv-oid" href="#1g">1g</a>" · "fixar a definição de resolutividade e partir para hi-fi com dados reais" · "mais variações da página de plantonistas"</p>
+</section>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,49 @@
+:root{
+  /* ── E-mail institucional (medium próprio: Outlook/webmail MB) ──
+     Atenção: o e-mail usa o Azul Marinha do MIV (#050F41), não o #121C4B do deck. */
+  --email-navy:#050F41;
+  --email-gold:#FAB932;
+  --email-green:#079551;
+  --email-danger:#c62828;
+  --email-danger-rail:#ef9a9a;
+
+  --email-bg:#f4f6f9;          /* fundo da mensagem, fora do cartão */
+  --email-surface:#ffffff;
+  --email-info-bg:#f4f6f9;     /* callout neutro/informativo */
+  --email-success-bg:#f0fdf4;  /* callout de nota clínica */
+  --email-warn-bg:#fffaf0;     /* callout normativo (DGPM-406) */
+  --email-danger-bg:#fff5f5;   /* callout de advertência disciplinar */
+
+  --email-text:#050F41;
+  --email-text-2:#333333;      /* corpo dentro de callout */
+  --email-text-3:#555555;      /* posto, legenda, citação de norma */
+  --email-text-4:#999999;      /* célula vazia de tabela */
+  --email-line:#e0e0e0;
+  --email-line-2:#dddddd;      /* tabelas legadas */
+  --email-zebra:#f9f9f9;
+
+  --email-width:700px;         /* @kind spacing */
+  --email-pad-x:50px;          /* @kind spacing */
+  --email-pad-y:40px;          /* @kind spacing */
+  --email-pad-mobile:20px;     /* @kind spacing */
+  --email-radius:8px;
+  --email-radius-s:4px;
+  --email-rail:4px;            /* @kind spacing */
+  --email-shadow:0 4px 12px rgba(5,15,65,.08);
+
+  --font-email:'Montserrat',Arial,sans-serif;
+  --font-email-display:'Bebas Neue',Arial,sans-serif;  /* alternativa à Octin College */
+
+  --email-fs-h3:24px;          /* @kind font */
+  --email-fs-callout-title:20px; /* @kind font */
+  --email-fs-lead:16px;        /* @kind font */
+  --email-fs-body:15px;        /* @kind font */
+  --email-fs-small:14px;       /* @kind font */
+  --email-fs-table:13px;       /* @kind font */
+  --email-fs-footer:11px;      /* @kind font */
+  --email-ls-display:.5px;     /* @kind font */
+
+  /* Ativos hospedados remotamente (obrigatório em e-mail: nada de caminho local) */
+  --email-header-banner:url("https://i.imgur.com/Btu1CAG.png"); /* @kind other */
+  --email-footer-logo:url("https://i.imgur.com/v8L0kuH.png"); /* @kind other */
+}

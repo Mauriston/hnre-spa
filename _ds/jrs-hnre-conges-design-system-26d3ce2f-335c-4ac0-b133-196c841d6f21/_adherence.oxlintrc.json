@@ -1,0 +1,685 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/data/**",
+              "components/email/**",
+              "components/layout/**",
+              "components/slide/**",
+              "ui_kits/conges-deck/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Montserrat))/i]",
+        "message": "Font not provided by the design system. Available: Montserrat."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DataTableColumn'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|align|shaded|key|ref|className|style|children)$/]",
+        "message": "<DataTableColumn> doesn't accept that prop. Declared props: label, align, shaded."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DataTableColumn'] > JSXAttribute[name.name='align'] > Literal[value!=/^(?:left|center|right)$/]",
+        "message": "<DataTableColumn> align must be one of 'left' | 'center' | 'right'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Delta'] > JSXAttribute > JSXIdentifier[name!=/^(?:dir|children|size|color|style|key|ref|className|style|children)$/]",
+        "message": "<Delta> doesn't accept that prop. Declared props: dir, children, size, color, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Delta'] > JSXAttribute[name.name='dir'] > Literal[value!=/^(?:up|down|flat)$/]",
+        "message": "<Delta> dir must be one of 'up' | 'down' | 'flat'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ElevatedCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|children|flush|style|key|ref|className|style|children)$/]",
+        "message": "<ElevatedCard> doesn't accept that prop. Declared props: title, children, flush, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailBody'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|padding|fontSize|key|ref|className|style|children)$/]",
+        "message": "<EmailBody> doesn't accept that prop. Declared props: children, padding, fontSize."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailButton'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|href|primary|key|ref|className|style|children)$/]",
+        "message": "<EmailButton> doesn't accept that prop. Declared props: label, href, primary."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailCallout'] > JSXAttribute > JSXIdentifier[name!=/^(?:tone|title|titleSize|children|style|key|ref|className|style|children)$/]",
+        "message": "<EmailCallout> doesn't accept that prop. Declared props: tone, title, titleSize, children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailCallout'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:info|clinica|norma|alerta)$/]",
+        "message": "<EmailCallout> tone must be one of 'info' | 'clinica' | 'norma' | 'alerta'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailChip'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|tone|key|ref|className|style|children)$/]",
+        "message": "<EmailChip> doesn't accept that prop. Declared props: children, tone."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailChip'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:navy|gold)$/]",
+        "message": "<EmailChip> tone must be one of 'navy' | 'gold'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailTableColumn'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|align|width|key|ref|className|style|children)$/]",
+        "message": "<EmailTableColumn> doesn't accept that prop. Declared props: label, align, width."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailTableColumn'] > JSXAttribute[name.name='align'] > Literal[value!=/^(?:left|center)$/]",
+        "message": "<EmailTableColumn> align must be one of 'left' | 'center'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailFooter'] > JSXAttribute > JSXIdentifier[name!=/^(?:logo|om|setor|telefone|email|endereco|key|ref|className|style|children)$/]",
+        "message": "<EmailFooter> doesn't accept that prop. Declared props: logo, om, setor, telefone, email, endereco."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailHeader'] > JSXAttribute > JSXIdentifier[name!=/^(?:src|width|alt|key|ref|className|style|children)$/]",
+        "message": "<EmailHeader> doesn't accept that prop. Declared props: src, width, alt."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailQuote'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|source|tone|style|key|ref|className|style|children)$/]",
+        "message": "<EmailQuote> doesn't accept that prop. Declared props: children, source, tone, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailQuote'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:info|alerta)$/]",
+        "message": "<EmailQuote> tone must be one of 'info' | 'alerta'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailSectionTitle'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|style|key|ref|className|style|children)$/]",
+        "message": "<EmailSectionTitle> doesn't accept that prop. Declared props: children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailShell'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|width|style|key|ref|className|style|children)$/]",
+        "message": "<EmailShell> doesn't accept that prop. Declared props: children, width, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='EmailSigner'] > JSXAttribute > JSXIdentifier[name!=/^(?:name|rank|role|key|ref|className|style|children)$/]",
+        "message": "<EmailSigner> doesn't accept that prop. Declared props: name, rank, role."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Eyebrow'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|style|key|ref|className|style|children)$/]",
+        "message": "<Eyebrow> doesn't accept that prop. Declared props: children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Fonte'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|style|key|ref|className|style|children)$/]",
+        "message": "<Fonte> doesn't accept that prop. Declared props: children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FormulaFraction'] > JSXAttribute > JSXIdentifier[name!=/^(?:lhs|numerator|denominator|suffix|style|key|ref|className|style|children)$/]",
+        "message": "<FormulaFraction> doesn't accept that prop. Declared props: lhs, numerator, denominator, suffix, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IndCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|value|unit|delta|deltaDir|level|rail|valueColor|children|style|key|ref|className|style|children)$/]",
+        "message": "<IndCard> doesn't accept that prop. Declared props: label, value, unit, delta, deltaDir, level, rail, valueColor, children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IndCard'] > JSXAttribute[name.name='deltaDir'] > Literal[value!=/^(?:up|down|flat)$/]",
+        "message": "<IndCard> deltaDir must be one of 'up' | 'down' | 'flat'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IndCard'] > JSXAttribute[name.name='level'] > Literal[value!=/^(?:excelente|bom|atencao|ruim)$/]",
+        "message": "<IndCard> level must be one of 'excelente' | 'bom' | 'atencao' | 'ruim'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IndTag'] > JSXAttribute > JSXIdentifier[name!=/^(?:level|children|compact|key|ref|className|style|children)$/]",
+        "message": "<IndTag> doesn't accept that prop. Declared props: level, children, compact."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IndTag'] > JSXAttribute[name.name='level'] > Literal[value!=/^(?:excelente|bom|atencao|ruim)$/]",
+        "message": "<IndTag> level must be one of 'excelente' | 'bom' | 'atencao' | 'ruim'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='KpiBox'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|value|unit|delta|deltaDir|big|valueColor|children|style|key|ref|className|style|children)$/]",
+        "message": "<KpiBox> doesn't accept that prop. Declared props: label, value, unit, delta, deltaDir, big, valueColor, children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='KpiBox'] > JSXAttribute[name.name='deltaDir'] > Literal[value!=/^(?:up|down|flat)$/]",
+        "message": "<KpiBox> deltaDir must be one of 'up' | 'down' | 'flat'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='KpiMini'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|value|unit|delta|deltaDir|level|danger|style|key|ref|className|style|children)$/]",
+        "message": "<KpiMini> doesn't accept that prop. Declared props: label, value, unit, delta, deltaDir, level, danger, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='KpiMini'] > JSXAttribute[name.name='deltaDir'] > Literal[value!=/^(?:up|down|flat)$/]",
+        "message": "<KpiMini> deltaDir must be one of 'up' | 'down' | 'flat'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='KpiMini'] > JSXAttribute[name.name='level'] > Literal[value!=/^(?:excelente|bom|atencao|ruim)$/]",
+        "message": "<KpiMini> level must be one of 'excelente' | 'bom' | 'atencao' | 'ruim'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='LegendItem'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|color|value|key|ref|className|style|children)$/]",
+        "message": "<LegendItem> doesn't accept that prop. Declared props: label, color, value."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Nota'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|style|key|ref|className|style|children)$/]",
+        "message": "<Nota> doesn't accept that prop. Declared props: children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionLabel'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|align|style|key|ref|className|style|children)$/]",
+        "message": "<SectionLabel> doesn't accept that prop. Declared props: children, align, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionLabel'] > JSXAttribute[name.name='align'] > Literal[value!=/^(?:left|center|right)$/]",
+        "message": "<SectionLabel> align must be one of 'left' | 'center' | 'right'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SignatureCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:name|rank|role|style|key|ref|className|style|children)$/]",
+        "message": "<SignatureCard> doesn't accept that prop. Declared props: name, rank, role, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SlideBrand'] > JSXAttribute > JSXIdentifier[name!=/^(?:side|src|alt|base|key|ref|className|style|children)$/]",
+        "message": "<SlideBrand> doesn't accept that prop. Declared props: side, src, alt, base."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SlideBrand'] > JSXAttribute[name.name='side'] > Literal[value!=/^(?:left|right)$/]",
+        "message": "<SlideBrand> side must be one of 'left' | 'right'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SlideFoot'] > JSXAttribute > JSXIdentifier[name!=/^(?:side|children|key|ref|className|style|children)$/]",
+        "message": "<SlideFoot> doesn't accept that prop. Declared props: side, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SlideFoot'] > JSXAttribute[name.name='side'] > Literal[value!=/^(?:left|right)$/]",
+        "message": "<SlideFoot> side must be one of 'left' | 'right'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SlideFrame'] > JSXAttribute > JSXIdentifier[name!=/^(?:title|tag|footLeft|footRight|brand|cover|base|children|style|key|ref|className|style|children)$/]",
+        "message": "<SlideFrame> doesn't accept that prop. Declared props: title, tag, footLeft, footRight, brand, cover, base, children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SlideTitle'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|style|key|ref|className|style|children)$/]",
+        "message": "<SlideTitle> doesn't accept that prop. Declared props: children, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ThresholdBand'] > JSXAttribute > JSXIdentifier[name!=/^(?:range|label|color|key|ref|className|style|children)$/]",
+        "message": "<ThresholdBand> doesn't accept that prop. Declared props: range, label, color."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "DataTableColumn": {
+        "replaces": []
+      },
+      "Delta": {
+        "replaces": []
+      },
+      "ElevatedCard": {
+        "replaces": []
+      },
+      "EmailBody": {
+        "replaces": []
+      },
+      "EmailButton": {
+        "replaces": []
+      },
+      "EmailCallout": {
+        "replaces": []
+      },
+      "EmailChip": {
+        "replaces": []
+      },
+      "EmailTableColumn": {
+        "replaces": []
+      },
+      "EmailFooter": {
+        "replaces": []
+      },
+      "EmailHeader": {
+        "replaces": []
+      },
+      "EmailQuote": {
+        "replaces": []
+      },
+      "EmailSectionTitle": {
+        "replaces": []
+      },
+      "EmailShell": {
+        "replaces": []
+      },
+      "EmailSigner": {
+        "replaces": []
+      },
+      "Eyebrow": {
+        "replaces": []
+      },
+      "Fonte": {
+        "replaces": []
+      },
+      "FormulaFraction": {
+        "replaces": []
+      },
+      "IndCard": {
+        "replaces": []
+      },
+      "IndTag": {
+        "replaces": []
+      },
+      "KpiBox": {
+        "replaces": []
+      },
+      "KpiMini": {
+        "replaces": []
+      },
+      "LegendItem": {
+        "replaces": []
+      },
+      "Nota": {
+        "replaces": []
+      },
+      "SectionLabel": {
+        "replaces": []
+      },
+      "SignatureCard": {
+        "replaces": []
+      },
+      "SlideBrand": {
+        "replaces": []
+      },
+      "SlideFoot": {
+        "replaces": []
+      },
+      "SlideFrame": {
+        "replaces": []
+      },
+      "SlideTitle": {
+        "replaces": []
+      },
+      "ThresholdBand": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--accent",
+      "--accent-soft",
+      "--accent-soft-strong",
+      "--band-atencao",
+      "--band-bom",
+      "--band-ruim",
+      "--blue",
+      "--border-accent-left",
+      "--border-card",
+      "--border-dashed",
+      "--border-hairline",
+      "--brand-h",
+      "--brand-inset",
+      "--brand-top",
+      "--chart-1",
+      "--chart-2",
+      "--chart-3",
+      "--chart-4",
+      "--chart-5",
+      "--chart-6",
+      "--chart-grid",
+      "--delta-down",
+      "--delta-flat",
+      "--delta-up",
+      "--dur-elem",
+      "--dur-fade",
+      "--dur-move",
+      "--ease-slide",
+      "--email-bg",
+      "--email-danger",
+      "--email-danger-bg",
+      "--email-danger-rail",
+      "--email-footer-logo",
+      "--email-fs-body",
+      "--email-fs-callout-title",
+      "--email-fs-footer",
+      "--email-fs-h3",
+      "--email-fs-lead",
+      "--email-fs-small",
+      "--email-fs-table",
+      "--email-gold",
+      "--email-green",
+      "--email-header-banner",
+      "--email-info-bg",
+      "--email-line",
+      "--email-line-2",
+      "--email-ls-display",
+      "--email-navy",
+      "--email-pad-mobile",
+      "--email-pad-x",
+      "--email-pad-y",
+      "--email-radius",
+      "--email-radius-s",
+      "--email-rail",
+      "--email-shadow",
+      "--email-success-bg",
+      "--email-surface",
+      "--email-text",
+      "--email-text-2",
+      "--email-text-3",
+      "--email-text-4",
+      "--email-warn-bg",
+      "--email-width",
+      "--email-zebra",
+      "--enter-y",
+      "--font-core",
+      "--font-display",
+      "--font-email",
+      "--font-email-display",
+      "--font-mono",
+      "--foot-bottom",
+      "--fs-body",
+      "--fs-body-s",
+      "--fs-capa",
+      "--fs-eyebrow",
+      "--fs-fonte",
+      "--fs-foot",
+      "--fs-h2",
+      "--fs-kpi-hero",
+      "--fs-kpi-l",
+      "--fs-kpi-m",
+      "--fs-kpi-s",
+      "--fs-kpi-xl",
+      "--fs-label",
+      "--fs-lead",
+      "--fs-nota",
+      "--fs-section",
+      "--fs-slide-tag",
+      "--fs-table",
+      "--fs-tag",
+      "--fs-th",
+      "--fw-black",
+      "--fw-bold",
+      "--fw-regular",
+      "--fw-semibold",
+      "--gap-body-row",
+      "--gap-grid",
+      "--gap-kpi-row",
+      "--gap-stack",
+      "--gold",
+      "--gold-ink",
+      "--grad-kpi",
+      "--grad-kpi-mini",
+      "--green",
+      "--green-dark",
+      "--h2-h",
+      "--h2-top",
+      "--ind-rail-w",
+      "--ink-1",
+      "--ink-2",
+      "--ink-3",
+      "--ink-4",
+      "--ink-5",
+      "--lh-body",
+      "--lh-capa",
+      "--lh-nota",
+      "--lh-tight",
+      "--lh-title",
+      "--line",
+      "--ls-eyebrow",
+      "--ls-foot",
+      "--ls-label",
+      "--ls-tag",
+      "--ls-title",
+      "--navy",
+      "--navy-050F41",
+      "--paper",
+      "--radius-bar",
+      "--radius-card",
+      "--radius-nota",
+      "--radius-swatch",
+      "--radius-tag",
+      "--radius-tooltip",
+      "--red",
+      "--red-dark",
+      "--shadow-card",
+      "--slide-pad-bottom",
+      "--slide-pad-top",
+      "--slide-pad-x",
+      "--sp-1",
+      "--sp-10",
+      "--sp-11",
+      "--sp-12",
+      "--sp-13",
+      "--sp-2",
+      "--sp-3",
+      "--sp-4",
+      "--sp-5",
+      "--sp-6",
+      "--sp-7",
+      "--sp-8",
+      "--sp-9",
+      "--stage-h",
+      "--stage-w",
+      "--stagger",
+      "--state-atencao",
+      "--state-atencao-bg",
+      "--state-bom",
+      "--state-bom-bg",
+      "--state-excelente",
+      "--state-ruim",
+      "--state-ruim-bg",
+      "--surface-alt",
+      "--surface-card",
+      "--surface-page",
+      "--surface-thead",
+      "--text-body",
+      "--text-eyebrow",
+      "--text-footer",
+      "--text-label",
+      "--text-muted",
+      "--text-title",
+      "--thead",
+      "--white"
+    ],
+    "tokenKinds": {
+      "--navy": "color",
+      "--navy-050F41": "color",
+      "--blue": "color",
+      "--gold": "color",
+      "--green": "color",
+      "--green-dark": "color",
+      "--red": "color",
+      "--red-dark": "color",
+      "--gold-ink": "color",
+      "--white": "color",
+      "--paper": "color",
+      "--thead": "color",
+      "--line": "color",
+      "--ink-1": "color",
+      "--ink-2": "color",
+      "--ink-3": "color",
+      "--ink-4": "color",
+      "--ink-5": "color",
+      "--text-title": "font",
+      "--text-body": "font",
+      "--text-label": "font",
+      "--text-muted": "font",
+      "--text-eyebrow": "font",
+      "--text-footer": "font",
+      "--surface-page": "color",
+      "--surface-card": "color",
+      "--surface-alt": "color",
+      "--surface-thead": "color",
+      "--border-card": "color",
+      "--accent": "color",
+      "--accent-soft": "color",
+      "--accent-soft-strong": "color",
+      "--state-excelente": "color",
+      "--state-bom": "color",
+      "--state-bom-bg": "color",
+      "--state-atencao": "color",
+      "--state-atencao-bg": "color",
+      "--state-ruim-bg": "color",
+      "--state-ruim": "color",
+      "--delta-up": "color",
+      "--delta-down": "color",
+      "--delta-flat": "color",
+      "--chart-1": "color",
+      "--chart-2": "color",
+      "--chart-3": "color",
+      "--chart-4": "color",
+      "--chart-5": "color",
+      "--chart-6": "color",
+      "--chart-grid": "color",
+      "--band-bom": "color",
+      "--band-atencao": "color",
+      "--band-ruim": "color",
+      "--font-core": "font",
+      "--font-display": "font",
+      "--font-mono": "font",
+      "--fs-capa": "spacing",
+      "--fs-h2": "spacing",
+      "--fs-kpi-hero": "spacing",
+      "--fs-kpi-xl": "spacing",
+      "--fs-kpi-l": "spacing",
+      "--fs-kpi-m": "spacing",
+      "--fs-kpi-s": "spacing",
+      "--fs-lead": "spacing",
+      "--fs-section": "spacing",
+      "--fs-body": "spacing",
+      "--fs-body-s": "spacing",
+      "--fs-label": "spacing",
+      "--fs-tag": "spacing",
+      "--fs-eyebrow": "spacing",
+      "--fs-table": "spacing",
+      "--fs-nota": "spacing",
+      "--fs-slide-tag": "spacing",
+      "--fs-th": "spacing",
+      "--fs-fonte": "spacing",
+      "--fs-foot": "spacing",
+      "--fw-regular": "font",
+      "--fw-semibold": "font",
+      "--fw-bold": "font",
+      "--fw-black": "font",
+      "--lh-title": "font",
+      "--lh-capa": "font",
+      "--lh-body": "font",
+      "--lh-nota": "font",
+      "--lh-tight": "font",
+      "--ls-eyebrow": "font",
+      "--ls-foot": "font",
+      "--ls-label": "font",
+      "--ls-tag": "font",
+      "--ls-title": "font",
+      "--stage-w": "spacing",
+      "--stage-h": "spacing",
+      "--slide-pad-top": "spacing",
+      "--slide-pad-x": "spacing",
+      "--slide-pad-bottom": "spacing",
+      "--sp-1": "spacing",
+      "--sp-2": "spacing",
+      "--sp-3": "spacing",
+      "--sp-4": "spacing",
+      "--sp-5": "spacing",
+      "--sp-6": "spacing",
+      "--sp-7": "spacing",
+      "--sp-8": "spacing",
+      "--sp-9": "spacing",
+      "--sp-10": "spacing",
+      "--sp-11": "spacing",
+      "--sp-12": "spacing",
+      "--sp-13": "spacing",
+      "--gap-grid": "spacing",
+      "--gap-kpi-row": "spacing",
+      "--gap-body-row": "spacing",
+      "--gap-stack": "spacing",
+      "--brand-h": "spacing",
+      "--brand-top": "spacing",
+      "--brand-inset": "spacing",
+      "--h2-top": "spacing",
+      "--h2-h": "spacing",
+      "--foot-bottom": "spacing",
+      "--radius-card": "radius",
+      "--radius-tag": "radius",
+      "--radius-swatch": "radius",
+      "--radius-bar": "radius",
+      "--radius-nota": "radius",
+      "--radius-tooltip": "radius",
+      "--border-hairline": "other",
+      "--border-dashed": "other",
+      "--border-accent-left": "other",
+      "--ind-rail-w": "spacing",
+      "--shadow-card": "shadow",
+      "--grad-kpi": "other",
+      "--grad-kpi-mini": "other",
+      "--ease-slide": "other",
+      "--dur-fade": "other",
+      "--dur-move": "other",
+      "--dur-elem": "other",
+      "--stagger": "other",
+      "--enter-y": "spacing",
+      "--email-navy": "color",
+      "--email-gold": "color",
+      "--email-green": "color",
+      "--email-danger": "color",
+      "--email-danger-rail": "color",
+      "--email-bg": "color",
+      "--email-surface": "color",
+      "--email-info-bg": "color",
+      "--email-success-bg": "color",
+      "--email-warn-bg": "color",
+      "--email-danger-bg": "color",
+      "--email-text": "font",
+      "--email-text-2": "font",
+      "--email-text-3": "font",
+      "--email-text-4": "font",
+      "--email-line": "color",
+      "--email-line-2": "color",
+      "--email-zebra": "color",
+      "--email-width": "spacing",
+      "--email-pad-x": "spacing",
+      "--email-pad-y": "spacing",
+      "--email-pad-mobile": "spacing",
+      "--email-radius": "radius",
+      "--email-radius-s": "radius",
+      "--email-rail": "spacing",
+      "--email-shadow": "shadow",
+      "--font-email": "font",
+      "--font-email-display": "font",
+      "--email-fs-h3": "font",
+      "--email-fs-callout-title": "font",
+      "--email-fs-lead": "font",
+      "--email-fs-body": "font",
+      "--email-fs-small": "font",
+      "--email-fs-table": "font",
+      "--email-fs-footer": "font",
+      "--email-ls-display": "font",
+      "--email-header-banner": "other",
+      "--email-footer-logo": "other"
+    },
+    "fontFamilies": [
+      "Montserrat"
+    ]
+  }
+}

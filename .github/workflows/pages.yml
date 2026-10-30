@@ -1,0 +1,74 @@
+name: Atualizar dados e publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 * * * *' # de hora em hora
+  workflow_dispatch:
+  repository_dispatch:
+    types: [atualizar-dados] # disparado pelo Apps Script ao editar a planilha
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PA_EXPORT_URL: ${{ secrets.PA_EXPORT_URL }}
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Baixar dados da planilha
+        if: ${{ env.PA_EXPORT_URL != '' }}
+        run: |
+          curl -fsSL --retry 3 --retry-delay 5 "$PA_EXPORT_URL" -o "$RUNNER_TEMP/export.json"
+          node scripts/build-pa-data.mjs "$RUNNER_TEMP/export.json" data/pa-data.js
+
+      - name: Registrar snapshot no repositório
+        id: commit
+        run: |
+          if git diff --quiet -- data/pa-data.js; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/pa-data.js
+            git commit -m "dados: atualiza snapshot do PA ($(date -u +%Y-%m-%d))"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Montar site
+        run: |
+          mkdir -p _site
+          cp -r index.html wireframes.html support.js .nojekyll data assets _ds _site/
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    if: ${{ github.event_name != 'schedule' || needs.build.outputs.changed == 'true' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
