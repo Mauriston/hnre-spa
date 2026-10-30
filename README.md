@@ -11,11 +11,11 @@ Planilha (tb_plantoes, tb_pacientes_eventos, CID-10)
    │  Apps Script (apps-script/ExportDashboard.gs) — Web App que gera
    │  um snapshot compacto e ANONIMIZADO (sem nome, NIP, telefone, idade ou quadro clínico)
    ▼
-GitHub Actions (.github/workflows/pages.yml) — de hora em hora, a cada push na main
-   │  e, opcionalmente, a cada edição da planilha (repository_dispatch)
-   │  baixa o JSON → scripts/build-pa-data.mjs → data/pa-data.js (commit)
+GitHub Actions (.github/workflows/pages.yml) — de hora em hora e, opcionalmente,
+   │  a cada edição da planilha (repository_dispatch)
+   │  baixa o JSON → scripts/build-pa-data.mjs → data/pa-data.js (commit na main)
    ▼
-GitHub Pages — index.html (dashboard) lê data/pa-data.js
+GitHub Pages (publica a partir da branch main) — index.html lê data/pa-data.js
 ```
 
 ## Estrutura
@@ -37,12 +37,12 @@ GitHub Pages — index.html (dashboard) lê data/pa-data.js
    e obter a URL de exportação.
 2. **Segredo no GitHub** — em *Settings → Secrets and variables → Actions → New repository secret*,
    crie `PA_EXPORT_URL` com a URL do Web App (incluindo `?token=...` se usar token).
-3. **GitHub Pages** — em *Settings → Pages → Build and deployment → Source*, escolha **GitHub Actions**.
-4. Rode o workflow manualmente uma vez: *Actions → Atualizar dados e publicar no GitHub Pages → Run workflow*.
+3. **GitHub Pages** — *Settings → Pages → Source: Deploy from a branch*, branch `main`, pasta `/ (root)` (já configurado).
+4. Rode o workflow manualmente uma vez: *Actions → Atualizar dados do painel → Run workflow*.
 
 O painel fica em `https://mauriston.github.io/hnre-spa/`.
 
-Sem o segredo `PA_EXPORT_URL`, o workflow apenas publica o snapshot já existente em `data/pa-data.js`.
+Sem o segredo `PA_EXPORT_URL`, o site continua mostrando o snapshot já existente em `data/pa-data.js`.
 
 ## Teste local
 
