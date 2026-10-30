@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do Pronto-Atendimento · HNRe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/jrs-hnre-conges-design-system-26d3ce2f-335c-4ac0-b133-196c841d6f21/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="data/pa-data.js"></script>
+<style>
+body{margin:0;background:#F3F4F8;font-family:'Montserrat',Arial,sans-serif;color:#1B2140}
+a{color:#050F41}a:hover{color:#FAB932}
+select{font-family:inherit}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#F3F4F8">
+
+<div style="background:#050F41;color:#fff;padding:14px 28px 0">
+  <div style="display:flex;align-items:center;gap:16px;max-width:1440px;margin:0 auto">
+    <img src="assets/marca-marinha.png" alt="Marinha do Brasil" style="height:38px">
+    <div style="flex:1;min-width:0">
+      <div style="font-size:11px;letter-spacing:.14em;color:#FAB932;font-weight:700">HOSPITAL NAVAL DE RECIFE · PRONTO-ATENDIMENTO</div>
+      <div style="font-size:22px;font-weight:800;letter-spacing:.01em">Painel do Pronto-Atendimento</div>
+    </div>
+    <img src="assets/brasao-hnre.png" alt="Brasão HNRe" style="height:44px">
+  </div>
+  <div style="display:flex;gap:2px;margin:12px auto 0;max-width:1440px;overflow-x:auto">
+    <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="7">
+      <button onClick="{{ t.click }}" style="border:0;border-radius:8px 8px 0 0;padding:10px 16px;font-family:inherit;font-size:13px;font-weight:{{ t.fw }};background:{{ t.bg }};color:{{ t.c }};cursor:pointer;white-space:nowrap">{{ t.label }}</button>
+    </sc-for>
+  </div>
+</div>
+
+<div style="background:#fff;border-bottom:1px solid #E3E6EE;padding:10px 28px">
+  <div style="max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+    <span style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">FILTROS</span>
+    {{ sel.mes }}{{ sel.sup }}{{ sel.pl }}{{ sel.esp }}{{ sel.dest }}
+    <sc-if value="{{ hasChips }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-left:8px">
+        <sc-for list="{{ chips }}" as="ch">
+          <button onClick="{{ ch.clear }}" style="border:0;background:#050F41;color:#fff;border-radius:14px;padding:4px 10px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">{{ ch.l }} ✕</button>
+        </sc-for>
+        <button onClick="{{ clearAll }}" style="border:0;background:transparent;color:#5B6280;text-decoration:underline;font-family:inherit;font-size:12px;cursor:pointer">limpar tudo</button>
+      </div>
+    </sc-if>
+  </div>
+</div>
+
+<div style="max-width:1440px;margin:0 auto;padding:20px 28px 40px">
+
+<sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:60px;text-align:center;color:#5B6280;font-size:14px">Carregando dados da planilha…</div>
+</sc-if>
+
+<sc-if value="{{ pg.geral }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px">
+    <div style="grid-column:span 2;background:#fff;border:2px solid #FAB932;border-radius:10px;padding:14px 18px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">% RESOLUTIVIDADE DO PA</div>
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:40px;font-weight:800;color:{{ g.resolC }}">{{ g.resol }}</span><span style="font-size:13px;font-weight:700;color:{{ g.resolC }}">{{ g.band }}</span></div>
+      <div style="font-size:12px;color:#5B6280">meta ≥ {{ g.meta }} · {{ g.out }} saídas externas em {{ g.at }} atendimentos</div>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">ATENDIMENTOS</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ g.at }}</div><div style="font-size:12px;color:#5B6280">{{ g.atPl }} por plantão</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">PLANTÕES 12h</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ g.n }}</div><div style="font-size:12px;color:#5B6280">{{ g.nD }} diurnos · {{ g.nN }} noturnos</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">INTERNAÇÕES</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ g.int }}</div><div style="font-size:12px;color:#5B6280">{{ g.pInt }} dos atendimentos</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">TRANSFERÊNCIAS</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ g.tr }}</div><div style="font-size:12px;color:#5B6280">{{ g.pTr }} dos atendimentos</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">ENCAMINHAMENTOS</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ g.enc }}</div><div style="font-size:12px;color:#5B6280">{{ g.pEnc }} · {{ g.encH }} ao HNRe</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">ÓBITOS</div><div style="font-size:28px;font-weight:800;color:#B3261E">{{ g.ob }}</div><div style="font-size:12px;color:#5B6280">{{ g.obM }} ‰ atendimentos</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">MILITARES DA ATIVA</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ g.maA }} / {{ g.maB }}</div><div style="font-size:12px;color:#5B6280">afastados / baixados</div></div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div style="font-size:15px;font-weight:700;color:#050F41">Atendimentos e % de resolutividade por mês</div><div style="font-size:12px;color:#5B6280">clique num mês para filtrar todas as abas</div></div>
+    <div style="display:flex;gap:4px;align-items:flex-end;height:190px;margin-top:14px">
+      <sc-for list="{{ g.months }}" as="m" hint-placeholder-count="12">
+        <div onClick="{{ m.click }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px;cursor:pointer;opacity:{{ m.op }}">
+          <span style="font-size:11px;color:#5B6280">{{ m.at }}</span>
+          <div style="width:72%;height:{{ m.h }};background:#050F41;border-radius:3px 3px 0 0"></div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:4px;margin-top:6px">
+      <sc-for list="{{ g.months }}" as="m" hint-placeholder-count="12">
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;opacity:{{ m.op }}">
+          <span style="font-size:11px;font-weight:600;color:#1B2140">{{ m.l }}</span>
+          <span style="font-size:11px;font-weight:700;color:#fff;background:{{ m.rc }};border-radius:8px;padding:1px 4px;white-space:nowrap">{{ m.r }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Desfecho dos atendimentos</div>
+      <div style="display:flex;height:26px;border-radius:5px;overflow:hidden">
+        <sc-for list="{{ g.desf }}" as="d"><div style="width:{{ d.w }};background:{{ d.c }}"></div></sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px">
+        <sc-for list="{{ g.desf }}" as="d">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px"><span style="width:12px;height:12px;border-radius:3px;background:{{ d.c }};flex:none"></span><span style="flex:1">{{ d.l }}</span><b>{{ d.v }}</b><span style="color:#5B6280;width:52px;text-align:right">{{ d.p }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Diurno × Noturno</div>
+      <div style="display:grid;grid-template-columns:90px repeat(6,1fr);gap:6px;font-size:12px;color:#5B6280;font-weight:600"><span></span><span>Plantões</span><span>At./plantão</span><span>% Int.</span><span>% Transf.</span><span>% Enc.</span><span>% Resol.</span></div>
+      <sc-for list="{{ g.turnos }}" as="t">
+        <div onClick="{{ t.click }}" style="display:grid;grid-template-columns:90px repeat(6,1fr);gap:6px;font-size:14px;align-items:center;padding:8px 0;border-top:1px solid #EEF0F5;cursor:pointer;opacity:{{ t.op }}"><b style="color:#050F41">{{ t.l }}</b><span>{{ t.n }}</span><span>{{ t.atPl }}</span><span>{{ t.pInt }}</span><span>{{ t.pTr }}</span><span>{{ t.pEnc }}</span><b style="color:{{ t.rc }}">{{ t.r }}</b></div>
+      </sc-for>
+      <div style="font-size:13px;font-weight:700;color:#050F41;margin-top:6px">Média de atendimentos por plantão · dia da semana</div>
+      <div style="display:flex;gap:8px;align-items:flex-end;height:110px">
+        <sc-for list="{{ g.dow }}" as="d">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:3px"><span style="font-size:11px;color:#5B6280">{{ d.v }}</span><div style="width:70%;height:{{ d.h }};background:#FAB932;border-radius:3px 3px 0 0"></div><span style="font-size:11px;font-weight:600">{{ d.l }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#5B6280;line-height:1.5">{{ formula }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ pg.clinico }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+    <span style="font-size:12px;color:#5B6280;font-weight:600">Tipo de evento:</span>
+    <sc-for list="{{ c.tipos }}" as="t"><button onClick="{{ t.click }}" style="border:1px solid #050F41;background:{{ t.bg }};color:{{ t.fg }};border-radius:14px;padding:4px 12px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">{{ t.l }} · {{ t.v }}</button></sc-for>
+    <span style="font-size:12px;color:#5B6280;margin-left:auto">{{ c.nEv }} eventos · CID preenchido em {{ c.cidFill }}</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Eventos por especialidade</div>
+      <div style="display:flex;gap:14px;font-size:12px;color:#5B6280"><span><span style="display:inline-block;width:10px;height:10px;background:#050F41;border-radius:2px"></span> Internação</span><span><span style="display:inline-block;width:10px;height:10px;background:#FAB932;border-radius:2px"></span> Transferência</span><span><span style="display:inline-block;width:10px;height:10px;background:#8E96B8;border-radius:2px"></span> Encaminhamento</span></div>
+      <sc-for list="{{ c.esp }}" as="it" hint-placeholder-count="8">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:150px 1fr 44px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.l }}</span>
+          <div style="display:flex;height:16px;background:#F3F4F8;border-radius:3px;overflow:hidden"><div style="width:{{ it.w1 }};background:#050F41"></div><div style="width:{{ it.w2 }};background:#FAB932"></div><div style="width:{{ it.w3 }};background:#8E96B8"></div><div style="width:{{ it.w4 }};background:#C9CEE0"></div></div>
+          <b style="font-size:13px;text-align:right">{{ it.v }}</b>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">CID mais frequentes</div>
+      <div style="display:grid;grid-template-columns:56px 1fr 40px 54px 60px 54px;gap:6px;font-size:11px;color:#5B6280;font-weight:700;padding-bottom:4px;border-bottom:1px solid #E3E6EE"><span>CID</span><span>Descrição</span><span>n</span><span>% Int.</span><span>% Transf.</span><span>% Enc.</span></div>
+      <sc-for list="{{ c.cids }}" as="r" hint-placeholder-count="10">
+        <div onClick="{{ r.click }}" style="display:grid;grid-template-columns:56px 1fr 40px 54px 60px 54px;gap:6px;font-size:12px;align-items:center;padding:3px 0;cursor:pointer;opacity:{{ r.op }}"><b style="color:#050F41">{{ r.cid }}</b><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.desc }}</span><b>{{ r.n }}</b><span>{{ r.pInt }}</span><span>{{ r.pTr }}</span><span>{{ r.pEnc }}</span></div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Destinos · transferências e encaminhamentos</div>
+      <sc-for list="{{ c.dest }}" as="it" hint-placeholder-count="8">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:190px 1fr 40px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.l }}</span>
+          <div style="display:flex;height:16px;background:#F3F4F8;border-radius:3px;overflow:hidden"><div style="width:{{ it.w1 }};background:#FAB932"></div><div style="width:{{ it.w2 }};background:#8E96B8"></div></div>
+          <b style="font-size:13px;text-align:right">{{ it.v }}</b>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Sexo dos pacientes com evento</div>
+      <sc-for list="{{ c.sexo }}" as="it">
+        <div style="display:grid;grid-template-columns:110px 1fr 70px;gap:8px;align-items:center"><span style="font-size:13px;font-weight:600">{{ it.l }}</span><div style="height:16px;background:#F3F4F8;border-radius:3px;overflow:hidden"><div style="width:{{ it.w }};height:100%;background:#050F41"></div></div><span style="font-size:13px;text-align:right"><b>{{ it.v }}</b> · {{ it.p }}</span></div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ pg.transf }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+    <div style="background:#fff;border:2px solid #FAB932;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">TRANSFERÊNCIAS</div><div style="font-size:32px;font-weight:800;color:#050F41">{{ t.n }}</div><div style="font-size:12px;color:#5B6280">{{ t.taxa }} dos atendimentos</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">ESPECIALIDADE QUE MAIS TRANSFERE</div><div style="font-size:18px;font-weight:800;color:#050F41;margin-top:4px">{{ t.topEsp }}</div><div style="font-size:12px;color:#5B6280">{{ t.topEspN }}</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">PRINCIPAL DESTINO</div><div style="font-size:18px;font-weight:800;color:#050F41;margin-top:4px">{{ t.topDest }}</div><div style="font-size:12px;color:#5B6280">{{ t.topDestN }}</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">CID MAIS TRANSFERIDO</div><div style="font-size:18px;font-weight:800;color:#050F41;margin-top:4px">{{ t.topCid }}</div><div style="font-size:12px;color:#5B6280">{{ t.topCidN }}</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Especialidades que mais geram transferências</div>
+      <div style="display:grid;grid-template-columns:150px 1fr 40px 96px;gap:8px;font-size:11px;font-weight:700;color:#5B6280"><span>Especialidade</span><span>Transferências</span><span>n</span><span style="text-align:right">% dos eventos da esp.</span></div>
+      <sc-for list="{{ t.esp }}" as="it" hint-placeholder-count="8">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:150px 1fr 40px 96px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.l }}</span>
+          <div style="height:16px;background:#F3F4F8;border-radius:3px;overflow:hidden"><div style="width:{{ it.w }};height:100%;background:#FAB932"></div></div>
+          <b style="font-size:13px;text-align:right">{{ it.v }}</b>
+          <span style="font-size:12px;text-align:right">{{ it.taxa }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Hospitais de destino das transferências</div>
+      <sc-for list="{{ t.dest }}" as="it" hint-placeholder-count="8">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:190px 1fr 40px 46px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.l }}</span>
+          <div style="height:16px;background:#F3F4F8;border-radius:3px;overflow:hidden"><div style="width:{{ it.w }};height:100%;background:#050F41"></div></div>
+          <b style="font-size:13px;text-align:right">{{ it.v }}</b>
+          <span style="font-size:12px;text-align:right;color:#5B6280">{{ it.p }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><div style="font-size:15px;font-weight:700;color:#050F41">Transferências · especialidade × hospital de destino</div><div style="font-size:12px;color:#5B6280">clique numa célula para filtrar especialidade e destino juntos</div></div>
+    <div style="overflow-x:auto">
+      <div style="min-width:820px;display:flex;flex-direction:column;gap:3px">
+        <div style="display:grid;grid-template-columns:{{ t.gtc }};gap:3px;font-size:11px;font-weight:700;color:#5B6280;align-items:end">
+          <span>Especialidade ↓ · Destino →</span>
+          <sc-for list="{{ t.cols }}" as="hc"><span style="text-align:center;line-height:1.2">{{ hc }}</span></sc-for>
+          <span style="text-align:center">Total</span>
+        </div>
+        <sc-for list="{{ t.mx }}" as="row" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:{{ t.gtc }};gap:3px;align-items:stretch">
+            <span style="font-size:12px;font-weight:600;padding:8px 4px">{{ row.l }}</span>
+            <sc-for list="{{ row.cells }}" as="cl"><div onClick="{{ cl.click }}" style="background:{{ cl.bg }};color:{{ cl.fg }};border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;cursor:pointer;min-height:32px">{{ cl.v }}</div></sc-for>
+            <div style="display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#050F41;background:#F3F4F8;border-radius:4px">{{ row.tot }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+    <div style="font-size:15px;font-weight:700;color:#050F41">CID das transferências por especialidade</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px">
+      <sc-for list="{{ t.cidEsp }}" as="ce" hint-placeholder-count="6">
+        <div style="border:1px solid #E3E6EE;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px">
+          <div onClick="{{ ce.click }}" style="display:flex;justify-content:space-between;align-items:baseline;cursor:pointer"><b style="font-size:13px;color:#050F41">{{ ce.l }}</b><span style="font-size:12px;color:#5B6280">{{ ce.n }} transf.</span></div>
+          <sc-for list="{{ ce.cids }}" as="cc">
+            <div onClick="{{ cc.click }}" style="display:grid;grid-template-columns:48px 1fr 60px 24px;gap:6px;align-items:center;font-size:12px;cursor:pointer"><b>{{ cc.cid }}</b><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ cc.desc }}</span><div style="height:8px;background:#F3F4F8;border-radius:2px;overflow:hidden"><div style="width:{{ cc.w }};height:100%;background:#FAB932"></div></div><b style="text-align:right">{{ cc.n }}</b></div>
+          </sc-for>
+          <span style="font-size:11px;color:#5B6280">{{ ce.semCid }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px">
+    <div style="font-size:15px;font-weight:700;color:#050F41">Top CID transferidos · especialidade e destino predominantes</div>
+    <div style="overflow-x:auto"><div style="min-width:760px;display:flex;flex-direction:column;gap:4px">
+      <div style="display:grid;grid-template-columns:60px 1.6fr 40px 1.2fr 1.4fr;gap:8px;font-size:11px;font-weight:700;color:#5B6280;border-bottom:1px solid #E3E6EE;padding-bottom:4px"><span>CID</span><span>Descrição</span><span>n</span><span>Especialidade principal</span><span>Destino principal</span></div>
+      <sc-for list="{{ t.topCids }}" as="r" hint-placeholder-count="10">
+        <div onClick="{{ r.click }}" style="display:grid;grid-template-columns:60px 1.6fr 40px 1.2fr 1.4fr;gap:8px;font-size:12px;padding:3px 0;cursor:pointer;opacity:{{ r.op }}"><b style="color:#050F41">{{ r.cid }}</b><span>{{ r.desc }}</span><b>{{ r.n }}</b><span>{{ r.esp }}</span><span>{{ r.dest }}</span></div>
+      </sc-for>
+    </div></div>
+    <div style="font-size:11px;color:#5B6280">{{ t.note }}</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ pg.sup }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+    <div style="grid-column:span 2;background:#fff;border:2px solid #FAB932;border-radius:10px;padding:14px 18px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">% RESOLUTIVIDADE · SUPERVISÃO MÉDICA</div>
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:40px;font-weight:800;color:{{ sp.rc }}">{{ sp.r }}</span><span style="font-size:13px;font-weight:700;color:{{ sp.rc }}">{{ sp.band }}</span></div>
+      <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin-top:6px"><div style="flex:1;background:#B3261E"></div><div style="flex:1;background:#E08A00"></div><div style="flex:1;background:#050F41"></div><div style="flex:1;background:#079551"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#5B6280;margin-top:3px"><span>Ruim</span><span>Atenção</span><span>Bom (meta {{ sp.meta }})</span><span>Excelente</span></div>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">SUPERVISORES NO RANKING</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ sp.nP }}</div><div style="font-size:12px;color:#5B6280">mín. {{ minPl }} plantões</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">PLANTÕES 12h / MÊS</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ sp.perMes }}</div><div style="font-size:12px;color:#5B6280">média por supervisor</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">SEM SUPERVISOR</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ sp.sem }}</div><div style="font-size:12px;color:#5B6280">plantões sem registro</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px">
+    <sc-for list="{{ sp.cards }}" as="cd" hint-placeholder-count="8">
+      <div onClick="{{ cd.click }}" style="background:#fff;border:1px solid {{ cd.bd }};border-left:5px solid {{ cd.bc }};border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;opacity:{{ cd.op }}">
+        <div style="display:flex;justify-content:space-between;gap:6px"><b style="font-size:13px;color:#050F41">{{ cd.name }}</b><span style="font-size:11px;font-weight:700;color:{{ cd.bc }}">{{ cd.bl }}</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font-size:26px;font-weight:800;color:{{ cd.bc }}">{{ cd.r }}</span><span style="font-size:12px;color:#5B6280;white-space:nowrap">{{ cd.delta }}</span></div>
+        <div style="display:flex;gap:3px;align-items:flex-end;height:28px">
+          <sc-for list="{{ cd.spark }}" as="sk"><div title="{{ sk.t }}" style="flex:1;height:{{ sk.h }};background:{{ sk.c }};border-radius:2px 2px 0 0"></div></sc-for>
+        </div>
+        <div style="font-size:11px;color:#5B6280">{{ cd.n }} plantões · {{ cd.perMes }}/mês · Int {{ cd.pInt }} · Tr {{ cd.pTr }} · Enc {{ cd.pEnc }}</div>
+      </div>
+    </sc-for>
+  </div>
+  <sc-if value="{{ sp.hasMore }}" hint-placeholder-val="{{ false }}"><button onClick="{{ sp.toggle }}" style="align-self:flex-start;border:1px solid #050F41;background:#fff;color:#050F41;border-radius:16px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">{{ sp.toggleTxt }}</button></sc-if>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:7px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">% Resolutividade por supervisor</div>
+      <sc-for list="{{ sp.rank }}" as="it" hint-placeholder-count="8">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:150px 1fr 56px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.name }}</span>
+          <div style="position:relative;height:16px;background:#F3F4F8;border-radius:3px"><div style="width:{{ it.w }};height:100%;background:{{ it.bc }};border-radius:3px"></div><div style="position:absolute;top:-3px;bottom:-3px;left:{{ sp.meanL }};border-left:2px dashed #1B2140"></div></div>
+          <b style="font-size:13px;text-align:right;color:{{ it.bc }}">{{ it.r }}</b>
+        </div>
+      </sc-for>
+      <div style="font-size:11px;color:#5B6280">linha tracejada = resolutividade média ({{ sp.r }}) · escala a partir de {{ sp.lo }}</div>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:7px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Taxas por atendimento · internação, transferência e encaminhamento</div>
+      <sc-for list="{{ sp.rank }}" as="it" hint-placeholder-count="8">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:150px 1fr 120px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.name }}</span>
+          <div style="display:flex;height:16px;background:#F3F4F8;border-radius:3px;overflow:hidden"><div style="width:{{ it.s1 }};background:#050F41"></div><div style="width:{{ it.s2 }};background:#FAB932"></div><div style="width:{{ it.s3 }};background:#8E96B8"></div></div>
+          <span style="font-size:11px;text-align:right">{{ it.pInt }} · {{ it.pTr }} · {{ it.pEnc }}</span>
+        </div>
+      </sc-for>
+      <div style="display:flex;gap:14px;font-size:12px;color:#5B6280"><span><span style="display:inline-block;width:10px;height:10px;background:#050F41;border-radius:2px"></span> Internação</span><span><span style="display:inline-block;width:10px;height:10px;background:#FAB932;border-radius:2px"></span> Transferência</span><span><span style="display:inline-block;width:10px;height:10px;background:#8E96B8;border-radius:2px"></span> Encaminhamento</span></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;overflow-x:auto">
+    <div style="min-width:980px;display:flex;flex-direction:column">
+      <div style="display:grid;grid-template-columns:minmax(150px,1.6fr) repeat(11,minmax(56px,1fr));gap:6px;font-size:11px;font-weight:700;color:#5B6280;padding-bottom:6px;border-bottom:1px solid #E3E6EE"><span>Supervisor médico</span><span>Plantões</span><span>Meses</span><span>Plant./mês</span><span>% Noturno</span><span>Atend.</span><span>At./plantão</span><span>% Int.</span><span>% Transf.</span><span>% Enc.</span><span>Óbitos</span><span>% Resol.</span></div>
+      <sc-for list="{{ sp.rows }}" as="r" hint-placeholder-count="10">
+        <div onClick="{{ r.click }}" style="display:grid;grid-template-columns:minmax(150px,1.6fr) repeat(11,minmax(56px,1fr));gap:6px;font-size:13px;padding:7px 0;border-bottom:1px solid #F3F4F8;cursor:pointer;background:{{ r.bg }}"><b style="color:#050F41">{{ r.name }}</b><span>{{ r.n }}</span><span>{{ r.meses }}</span><span>{{ r.perMes }}</span><span>{{ r.not }}</span><span>{{ r.at }}</span><span>{{ r.atPl }}</span><span>{{ r.pInt }}</span><span>{{ r.pTr }}</span><span>{{ r.pEnc }}</span><span>{{ r.ob }}</span><b style="color:{{ r.bc }}">{{ r.r }}</b></div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#5B6280;line-height:1.5">{{ formula }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ pg.pl }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+    <div style="grid-column:span 2;background:#fff;border:2px solid #FAB932;border-radius:10px;padding:14px 18px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">% RESOLUTIVIDADE · PLANTONISTAS</div>
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font-size:40px;font-weight:800;color:{{ pp.rc }}">{{ pp.r }}</span><span style="font-size:13px;font-weight:700;color:{{ pp.rc }}">{{ pp.band }}</span></div>
+      <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;margin-top:6px"><div style="flex:1;background:#B3261E"></div><div style="flex:1;background:#E08A00"></div><div style="flex:1;background:#050F41"></div><div style="flex:1;background:#079551"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#5B6280;margin-top:3px"><span>Ruim</span><span>Atenção</span><span>Bom (meta {{ pp.meta }})</span><span>Excelente</span></div>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">PLANTONISTAS NO RANKING</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ pp.nP }}</div><div style="font-size:12px;color:#5B6280">de {{ pp.nAll }} · mín. {{ minPl }} plantões</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">PLANTÕES 12h / MÉDICO / MÊS</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ pp.perMes }}</div><div style="font-size:12px;color:#5B6280">mín {{ pp.pmMin }} · máx {{ pp.pmMax }}</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">ATEND. / PLANTÃO</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ pp.atPl }}</div><div style="font-size:12px;color:#5B6280">D {{ pp.atD }} · N {{ pp.atN }}</div></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px">
+    <sc-for list="{{ pp.cards }}" as="cd" hint-placeholder-count="8">
+      <div onClick="{{ cd.click }}" style="background:#fff;border:1px solid {{ cd.bd }};border-left:5px solid {{ cd.bc }};border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;opacity:{{ cd.op }}">
+        <div style="display:flex;justify-content:space-between;gap:6px"><b style="font-size:13px;color:#050F41">{{ cd.name }}</b><span style="font-size:11px;font-weight:700;color:{{ cd.bc }}">{{ cd.bl }}</span></div>
+        <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font-size:26px;font-weight:800;color:{{ cd.bc }}">{{ cd.r }}</span><span style="font-size:12px;color:#5B6280;white-space:nowrap">{{ cd.delta }}</span></div>
+        <div style="display:flex;gap:3px;align-items:flex-end;height:28px">
+          <sc-for list="{{ cd.spark }}" as="sk"><div title="{{ sk.t }}" style="flex:1;height:{{ sk.h }};background:{{ sk.c }};border-radius:2px 2px 0 0"></div></sc-for>
+        </div>
+        <div style="font-size:11px;color:#5B6280">{{ cd.n }} plantões · {{ cd.perMes }}/mês · {{ cd.not }} noturno</div>
+      </div>
+    </sc-for>
+  </div>
+  <sc-if value="{{ pp.hasMore }}" hint-placeholder-val="{{ false }}"><button onClick="{{ pp.toggle }}" style="align-self:flex-start;border:1px solid #050F41;background:#fff;color:#050F41;border-radius:16px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">{{ pp.toggleTxt }}</button></sc-if>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;max-height:560px;overflow-y:auto">
+      <div style="font-size:15px;font-weight:700;color:#050F41">% Resolutividade por plantonista</div>
+      <sc-for list="{{ pp.rank }}" as="it" hint-placeholder-count="10">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:150px 1fr 56px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.name }}</span>
+          <div style="position:relative;height:14px;background:#F3F4F8;border-radius:3px"><div style="width:{{ it.w }};height:100%;background:{{ it.bc }};border-radius:3px"></div><div style="position:absolute;top:-3px;bottom:-3px;left:{{ pp.meanL }};border-left:2px dashed #1B2140"></div></div>
+          <b style="font-size:13px;text-align:right;color:{{ it.bc }}">{{ it.r }}</b>
+        </div>
+      </sc-for>
+      <div style="font-size:11px;color:#5B6280">linha tracejada = média ({{ pp.r }}) · escala a partir de {{ pp.lo }}</div>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;max-height:560px;overflow-y:auto">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Taxas por atendimento</div>
+      <sc-for list="{{ pp.rank }}" as="it" hint-placeholder-count="10">
+        <div onClick="{{ it.click }}" style="display:grid;grid-template-columns:150px 1fr 120px;gap:8px;align-items:center;cursor:pointer;opacity:{{ it.op }}">
+          <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ it.name }}</span>
+          <div style="display:flex;height:14px;background:#F3F4F8;border-radius:3px;overflow:hidden"><div style="width:{{ it.s1 }};background:#050F41"></div><div style="width:{{ it.s2 }};background:#FAB932"></div><div style="width:{{ it.s3 }};background:#8E96B8"></div></div>
+          <span style="font-size:11px;text-align:right">{{ it.pInt }} · {{ it.pTr }} · {{ it.pEnc }}</span>
+        </div>
+      </sc-for>
+      <div style="display:flex;gap:14px;font-size:12px;color:#5B6280"><span><span style="display:inline-block;width:10px;height:10px;background:#050F41;border-radius:2px"></span> Internação</span><span><span style="display:inline-block;width:10px;height:10px;background:#FAB932;border-radius:2px"></span> Transferência</span><span><span style="display:inline-block;width:10px;height:10px;background:#8E96B8;border-radius:2px"></span> Encaminhamento</span></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;overflow-x:auto">
+    <div style="min-width:1040px;display:flex;flex-direction:column">
+      <div style="display:grid;grid-template-columns:minmax(150px,1.5fr) repeat(12,minmax(54px,1fr));gap:6px;font-size:11px;font-weight:700;color:#5B6280;padding-bottom:6px;border-bottom:1px solid #E3E6EE"><span>Plantonista</span><span>Plantões</span><span>Meses</span><span>Plant./mês</span><span>% Noturno</span><span>Atend.</span><span>At./plantão</span><span>% Int.</span><span>% Transf.</span><span>% Enc.</span><span>Óbitos</span><span>Dupla + freq.</span><span>% Resol.</span></div>
+      <sc-for list="{{ pp.rows }}" as="r" hint-placeholder-count="10">
+        <div onClick="{{ r.click }}" style="display:grid;grid-template-columns:minmax(150px,1.5fr) repeat(12,minmax(54px,1fr));gap:6px;font-size:13px;padding:7px 0;border-bottom:1px solid #F3F4F8;cursor:pointer;background:{{ r.bg }}"><b style="color:#050F41">{{ r.name }}</b><span>{{ r.n }}</span><span>{{ r.meses }}</span><span>{{ r.perMes }}</span><span>{{ r.not }}</span><span>{{ r.at }}</span><span>{{ r.atPl }}</span><span>{{ r.pInt }}</span><span>{{ r.pTr }}</span><span>{{ r.pEnc }}</span><span>{{ r.ob }}</span><span style="font-size:11px">{{ r.dupla }}</span><b style="color:{{ r.bc }}">{{ r.r }}</b></div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;overflow-x:auto">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Plantões de 12h por mês · top 15 plantonistas</div>
+      <div style="min-width:560px;display:flex;flex-direction:column;gap:2px">
+        <div style="display:grid;grid-template-columns:{{ pp.hm.gtc }};gap:2px;font-size:10px;color:#5B6280;font-weight:700">
+          <span></span><sc-for list="{{ pp.hm.months }}" as="hm"><span style="text-align:center;font-size:11px">{{ hm }}</span></sc-for>
+        </div>
+        <sc-for list="{{ pp.hm.rows }}" as="hr" hint-placeholder-count="10">
+          <div style="display:grid;grid-template-columns:{{ pp.hm.gtc }};gap:2px;align-items:center">
+            <span style="font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ hr.l }}</span>
+            <sc-for list="{{ hr.cells }}" as="hc"><div title="{{ hc.t }}" style="background:{{ hc.bg }};color:{{ hc.fg }};height:22px;border-radius:2px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ hc.v }}</div></sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Duplas mais frequentes</div>
+      <div style="display:grid;grid-template-columns:1fr 70px 70px;gap:8px;font-size:11px;font-weight:700;color:#5B6280"><span>Dupla</span><span>Plantões</span><span>% Resol.</span></div>
+      <sc-for list="{{ pp.duplas }}" as="d" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:1fr 70px 70px;gap:8px;font-size:13px;align-items:center;padding:4px 0;border-top:1px solid #F3F4F8"><span style="font-weight:600">{{ d.l }}</span><span>{{ d.n }}</span><b style="color:{{ d.bc }}">{{ d.r }}</b></div>
+      </sc-for>
+      <div style="font-size:11px;color:#5B6280">Cada plantão tem dois plantonistas: o resultado do plantão é atribuído integralmente a ambos.</div>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#5B6280;line-height:1.5">{{ formula }}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ pg.leitos }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+    <div style="background:#fff;border:2px solid #FAB932;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">OCUPAÇÃO TOTAL · 25 LEITOS</div><div style="font-size:34px;font-weight:800;color:{{ lt.tC }}">{{ lt.occT }}</div><div style="font-size:12px;color:#5B6280">média de {{ lt.avgT }} pacientes internados</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">ALA A · 15 LEITOS</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ lt.occA }}</div><div style="font-size:12px;color:#5B6280">média {{ lt.avgA }} · pico {{ lt.pkA }}</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">ALA B · 10 LEITOS</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ lt.occB }}</div><div style="font-size:12px;color:#5B6280">média {{ lt.avgB }} · pico {{ lt.pkB }}</div></div>
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#5B6280">PLANTÕES COM OCUPAÇÃO ≥ 85%</div><div style="font-size:28px;font-weight:800;color:#050F41">{{ lt.hi }}</div><div style="font-size:12px;color:#5B6280">em pelo menos uma ala</div></div>
+  </div>
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><div style="font-size:15px;font-weight:700;color:#050F41">Taxa média de ocupação por mês e ala</div><div style="display:flex;gap:14px;font-size:12px;color:#5B6280"><span><span style="display:inline-block;width:10px;height:10px;background:#050F41;border-radius:2px"></span> Ala A (15)</span><span><span style="display:inline-block;width:10px;height:10px;background:#FAB932;border-radius:2px"></span> Ala B (10)</span><span>- - 85%</span></div></div>
+    <div style="position:relative;display:flex;gap:6px;align-items:flex-end;height:200px;margin-top:14px">
+      <div style="position:absolute;left:0;right:0;bottom:85%;border-top:1.5px dashed #B3261E"></div>
+      <sc-for list="{{ lt.months }}" as="m" hint-placeholder-count="12">
+        <div onClick="{{ m.click }}" title="{{ m.t }}" style="flex:1;min-width:0;height:100%;display:flex;gap:2px;align-items:flex-end;justify-content:center;cursor:pointer;opacity:{{ m.op }}">
+          <div style="width:40%;height:{{ m.hA }};background:#050F41;border-radius:2px 2px 0 0"></div>
+          <div style="width:40%;height:{{ m.hB }};background:#FAB932;border-radius:2px 2px 0 0"></div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:6px">
+      <sc-for list="{{ lt.months }}" as="m"><div style="flex:1;min-width:0;text-align:center;font-size:11px;line-height:1.35"><b>{{ m.l }}</b><br><span style="color:#050F41">{{ m.a }}</span><br><span style="color:#B07A00">{{ m.b }}</span></div></sc-for>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px">
+    <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:15px;font-weight:700;color:#050F41">Ocupação por turno</div>
+      <sc-for list="{{ lt.turnos }}" as="tt">
+        <div style="display:grid;grid-template-columns:90px 1fr 1fr 1fr;gap:8px;font-size:14px;padding:6px 0;border-top:1px solid #F3F4F8"><b style="color:#050F41">{{ tt.l }}</b><span>A {{ tt.a }}</span><span>B {{ tt.b }}</span><span>Total {{ tt.t }}</span></div>
+      </sc-for>
+    </div>
+    <div style="background:#FFF8E6;border:1px solid #F1D48A;border-radius:10px;padding:16px 18px;font-size:13px;line-height:1.5;color:#5A4500">
+      <b>Qualidade do registro</b><br>{{ lt.note }}
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ pg.pivo }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:12px">
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:12px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+    <span style="font-size:12px;font-weight:700;color:#5B6280">Linhas</span>{{ pv.selR }}
+    <span style="font-size:12px;font-weight:700;color:#5B6280">Colunas</span>{{ pv.selC }}
+    <span style="font-size:12px;font-weight:700;color:#5B6280">Valor</span>{{ pv.selV }}
+    <button onClick="{{ pv.csv }}" style="margin-left:auto;border:0;background:#050F41;color:#fff;border-radius:16px;padding:7px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer">⇩ Exportar CSV</button>
+  </div>
+  <sc-if value="{{ pv.err }}" hint-placeholder-val="{{ false }}"><div style="background:#FFF8E6;border:1px solid #F1D48A;border-radius:8px;padding:10px 14px;font-size:13px;color:#5A4500">{{ pv.errTxt }}</div></sc-if>
+  <div style="background:#fff;border:1px solid #E3E6EE;border-radius:10px;padding:14px 16px;overflow-x:auto">
+    <div style="display:flex;flex-direction:column;gap:2px;min-width:{{ pv.minW }}">
+      <div style="display:grid;grid-template-columns:{{ pv.gtc }};gap:2px;font-size:11px;font-weight:700;color:#5B6280;padding-bottom:4px;border-bottom:1px solid #E3E6EE">
+        <span>{{ pv.rl }} ↓ · {{ pv.cl }} →</span><sc-for list="{{ pv.cols }}" as="pc"><span style="text-align:center">{{ pc }}</span></sc-for><span style="text-align:center">Total</span>
+      </div>
+      <sc-for list="{{ pv.rows }}" as="pr" hint-placeholder-count="10">
+        <div style="display:grid;grid-template-columns:{{ pv.gtc }};gap:2px;align-items:center">
+          <span style="font-size:12px;font-weight:600;padding:5px 0">{{ pr.l }}</span>
+          <sc-for list="{{ pr.cells }}" as="pc2"><span style="background:{{ pc2.bg }};color:{{ pc2.fg }};text-align:center;font-size:12px;padding:5px 2px;border-radius:3px">{{ pc2.t }}</span></sc-for>
+          <b style="text-align:center;font-size:12px;background:#F3F4F8;padding:5px 2px;border-radius:3px">{{ pr.tot }}</b>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#5B6280">Valores por plantão (plantões, atendimentos, taxas e resolutividade) aceitam só dimensões do plantão. "Nº de eventos" aceita todas as dimensões. Respeita os filtros globais.</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;metaResol&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:92,&quot;min&quot;:80,&quot;max&quot;:99,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Resolutividade&quot;},&quot;minPlantoes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:10,&quot;min&quot;:1,&quot;max&quot;:60,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Resolutividade&quot;},&quot;excluirEncHNRe&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Resolutividade&quot;},&quot;excluirContinuidade&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Resolutividade&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 'geral', f: {}, pivR: 'sup', pivC: 'mes', pivV: 'resol', allSup: false, allPl: false };
+  componentDidMount() { const go = () => { if (window.PA_DATA) { this.prep(); this.forceUpdate(); } else this.t = setTimeout(go, 80); }; go(); }
+  componentWillUnmount() { clearTimeout(this.t); }
+  prep() {
+    const R = window.PA_DATA, norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace(/\s+/g, ' ').trim();
+    const fix = s => s.replace(/DUBOURQ$/, 'DUBOURCQ').replace(/MATT(OS|IS|KS)$/, 'MATOS');
+    const disp = {}; const plK = R.pl.map(n => { const d = fix(n.replace(/\(.*$/, '').trim()); const k = norm(d); if (!disp[k]) disp[k] = d; return k; });
+    const plC = plK.map(k => disp[k]);
+    const supC = R.sup.map(s => s === 'CT' ? 'CT (não identificado)' : s);
+    const espC = s => { const x = s.split(',')[0].trim(); return x === 'PEDIATRA' ? 'PEDIATRIA' : x; };
+    const cm = {}; R.cid.split('~').forEach(x => { const i = x.indexOf('|'); cm[x.slice(0, i)] = x.slice(i + 1); });
+    const base = Date.UTC(2025, 2, 24), seen = new Map(), P = [], ix = [];
+    R.P.split(';').forEach((r, i) => {
+      if (seen.has(r)) { ix[i + 1] = seen.get(r); return; }
+      const a = r.split(',').map((v, j) => j === 1 ? v : +v); const day = a[0];
+      let mes = null, dow = null, t = null;
+      if (day >= 0) { const d = new Date(base + day * 864e5); t = d.getTime(); mes = d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0'); dow = d.getUTCDay(); }
+      const pls = [...new Set([a[3], a[4], a[5]].filter(x => x > 0).map(x => plC[x - 1]))];
+      const p = { i: P.length, mes, dow, t, turno: a[1] === 'N' ? 'Noturno' : 'Diurno', sup: a[2] ? supC[a[2] - 1] : '(sem supervisor)', pls, at: a[6], int: a[7], tr: a[8], enc: a[9], maA: a[10], maB: a[11], ob: a[12], alaA: a[13], alaB: a[14], ev: [] };
+      seen.set(r, p.i); ix[i + 1] = p.i; P.push(p);
+    });
+    const TP = { I: 'Internação', T: 'Transferência', E: 'Encaminhamento', R: 'Outro (R)' };
+    const E = [];
+    R.E.split(';').forEach(r => {
+      const a = r.split(','); const pi = ix[+a[0]]; if (pi == null) return; const p = P[pi];
+      const dest = +a[3] ? R.dest[+a[3] - 1] : '(sem destino)'; const tipo = TP[a[1]] || 'Outro';
+      const e = { p, tipo, sexo: a[2] || '—', dest, esp: +a[4] ? espC(R.esp[+a[4] - 1]) : '(sem especialidade)', cid: a[5] || '', encH: tipo === 'Encaminhamento' && dest.indexOf('HNRe') >= 0, contOut: (tipo === 'Transferência' || tipo === 'Encaminhamento') && +a[6] > 0 };
+      p.ev.push(e); E.push(e);
+    });
+    const uniq = a => [...new Set(a)].sort((x, y) => x.localeCompare(y, 'pt'));
+    const ts = P.map(p => p.t).filter(x => x != null);
+    this.D = { minT: Math.min(...ts), maxT: Math.max(...ts), P, E, cm, months: [...new Set(P.map(p => p.mes).filter(Boolean))].sort(), sups: uniq(P.map(p => p.sup)), pls: uniq(P.flatMap(p => p.pls)), esps: uniq(E.map(e => e.esp)), dests: uniq(E.map(e => e.dest)), apur: R.apuracao };
+  }
+  setF(k, v) { this.setState(s => { const f = { ...s.f }; if (v) f[k] = v; else delete f[k]; if (k === 'per' && v !== 'custom') { delete f.de; delete f.ate; } return { f }; }); }
+  tg(k, v) { return () => this.setState(s => { const f = { ...s.f }; if (f[k] === v) delete f[k]; else f[k] = v; return { f }; }); }
+  renderVals() {
+    const s = this.state, f = s.f, D = this.D, tab = s.tab, h = React.createElement;
+    const TABS = [['geral', 'Visão geral'], ['clinico', 'Perfil clínico'], ['transf', 'Transferências'], ['sup', 'Supervisores'], ['pl', 'Plantonistas'], ['pivo', 'Tabela dinâmica']];
+    const tabs = TABS.map(([k, l]) => ({ label: l, click: () => this.setState({ tab: k }), bg: k === tab ? '#fff' : 'transparent', c: k === tab ? '#050F41' : '#C9CEE0', fw: k === tab ? '700' : '500' }));
+    const minPl = this.props.minPlantoes ?? 10;
+    if (!D) return { loading: true, tabs, pg: {}, sel: { mes: null, turno: null, sup: null, pl: null, esp: null, dest: null, tipo: null }, chips: [], hasChips: false, clearAll: () => {}, apur: '…', minPl, formula: '' };
+    const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'], DOW = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const nf = n => Math.round(n).toLocaleString('pt-BR'), pf = (x, d = 1) => isFinite(x) ? (x * 100).toFixed(d).replace('.', ',') + '%' : '—', df = (x, d = 1) => isFinite(x) ? x.toFixed(d).replace('.', ',') : '—';
+    const ml = m => { if (!m) return '(data inválida)'; const [y, mm] = m.split('-'); return MES[+mm - 1] + '/' + y.slice(2); };
+    const exH = this.props.excluirEncHNRe ?? true, exC = this.props.excluirContinuidade ?? true, meta = (this.props.metaResol ?? 92) / 100;
+    const G = '#079551', N = '#050F41', A = '#E08A00', RD = '#B3261E', GOLD = '#FAB932';
+    const band = r => !isFinite(r) ? ['—', '#8E96B8'] : r >= meta + .03 ? ['Excelente', G] : r >= meta ? ['Bom', N] : r >= meta - .03 ? ['Atenção', A] : ['Ruim', RD];
+    const op = (k, v) => f[k] && f[k] !== v ? .35 : 1;
+    const iso = t => new Date(t).toISOString().slice(0, 10), fmtD = x => x ? x.split('-').reverse().join('/') : '…';
+    const now = new Date(), Y = now.getFullYear(), M = now.getMonth(), Dd = now.getDate(), today = Date.UTC(Y, M, Dd);
+    const PSTART = { semana: today - ((now.getDay() + 6) % 7) * 864e5, mes: Date.UTC(Y, M, 1), tri: Date.UTC(Y, M - M % 3, 1), sem: Date.UTC(Y, M < 6 ? 0 : 6, 1), ano: Date.UTC(Y, 0, 1) };
+    const rng = !f.per ? null : f.per === 'custom' ? [f.de ? Date.parse(f.de) : -Infinity, f.ate ? Date.parse(f.ate) : Infinity] : [PSTART[f.per], today];
+    const passP = (p, skip) => (!rng || (p.t != null && p.t >= rng[0] && p.t <= rng[1])) && (skip === 'mes' || !f.mes || p.mes === f.mes) && (skip === 'turno' || !f.turno || p.turno === f.turno) && (skip === 'sup' || !f.sup || p.sup === f.sup) && (skip === 'pl' || !f.pl || p.pls.includes(f.pl));
+    const passE = (e, skip) => (skip === 'esp' || !f.esp || e.esp === f.esp) && (skip === 'tipo' || !f.tipo || e.tipo === f.tipo) && (skip === 'dest' || !f.dest || e.dest === f.dest) && (!f.cid || e.cid === f.cid);
+    const PF = D.P.filter(p => passP(p));
+    const evs = skip => { const o = []; PF.forEach(p => p.ev.forEach(e => { if (passE(e, skip)) o.push(e); })); return o; };
+    const EF = evs();
+    const agg = L => {
+      const a = { n: L.length, at: 0, int: 0, tr: 0, enc: 0, ob: 0, out: 0, maA: 0, maB: 0, not: 0, encH: 0 }; const ms = new Set();
+      L.forEach(p => { a.at += p.at; a.int += p.int; a.tr += p.tr; a.enc += p.enc; a.ob += p.ob; a.maA += p.maA; a.maB += p.maB; if (p.turno === 'Noturno') a.not++; if (p.mes) ms.add(p.mes); let x = 0; for (const e of p.ev) { if (e.encH) a.encH++; if ((exH && e.encH) || (exC && e.contOut)) x++; } a.out += Math.max(0, p.tr + p.enc - x); });
+      a.resol = a.at ? 1 - a.out / a.at : NaN; a.pInt = a.int / a.at; a.pTr = a.tr / a.at; a.pEnc = a.enc / a.at; a.atPl = a.at / a.n; a.meses = ms.size; a.perMes = a.meses ? a.n / a.meses : NaN; return a;
+    };
+    const gb = (L, fn) => { const m = new Map(); L.forEach(x => { let k = fn(x); (Array.isArray(k) ? k : [k]).forEach(kk => { if (!m.has(kk)) m.set(kk, []); m.get(kk).push(x); }); }); return m; };
+    const cnt = (L, fn) => { const m = new Map(); L.forEach(x => { const k = fn(x); m.set(k, (m.get(k) || 0) + 1); }); return [...m].sort((a, b) => b[1] - a[1]); };
+    const short = d => d.replace('Hospital ', 'H. ').replace('Clínica Psiquiátrica ', 'Clín. ').replace('Instituto de Olhos do Recife', 'IOR').replace(' - Hospital de Olhos', '');
+    const selSt = { border: '1px solid #C9CEE0', borderRadius: 16, padding: '5px 10px', fontSize: 12, fontWeight: 600, color: '#050F41', background: '#fff', maxWidth: 200, fontFamily: 'inherit' };
+    const mkSel = (k, ph, opts, lab) => h('select', { value: f[k] || '', onChange: e => this.setF(k, e.target.value), style: { ...selSt, background: f[k] ? '#FFF3D1' : '#fff' } }, [h('option', { key: '', value: '' }, ph), ...opts.map(o => h('option', { key: o, value: o }, lab ? lab(o) : o))]);
+    const PER = [['', 'Todos os períodos'], ['semana', 'Esta semana'], ['mes', 'Este mês'], ['tri', 'Este trimestre'], ['sem', 'Este semestre'], ['ano', 'Este ano'], ['custom', 'Personalizado']], PERL = Object.fromEntries(PER);
+    const perSel = h('select', { value: f.per || '', onChange: e => this.setF('per', e.target.value), style: { ...selSt, background: f.per ? '#FFF3D1' : '#fff' } }, PER.map(([v, l]) => h('option', { key: v, value: v }, l)));
+    const dIn = (k, lab) => h('label', { style: { display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 600, color: '#5B6280' } }, lab, h('input', { type: 'date', value: f[k] || '', min: iso(D.minT), max: iso(D.maxT), onChange: e => this.setF(k, e.target.value), style: { ...selSt, maxWidth: 150 } }));
+    const perEl = f.per === 'custom' ? h('span', { style: { display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' } }, perSel, dIn('de', 'de'), dIn('ate', 'até')) : perSel;
+    const sel = { mes: perEl, turno: mkSel('turno', 'Turno', ['Diurno', 'Noturno']), sup: mkSel('sup', 'Supervisor médico', D.sups), pl: mkSel('pl', 'Plantonista', D.pls), esp: mkSel('esp', 'Especialidade', D.esps), dest: mkSel('dest', 'Destino', D.dests), tipo: mkSel('tipo', 'Tipo de evento', ['Internação', 'Transferência', 'Encaminhamento', 'Outro (R)']) };
+    const ce = tab === 'clinico' || tab === 'transf';
+    if (tab !== 'sup') sel.sup = null; if (tab !== 'pl') sel.pl = null; if (!ce) { sel.esp = null; sel.dest = null; }
+    const FL = { mes: 'Mês', turno: 'Turno', sup: 'Supervisor', pl: 'Plantonista', esp: 'Especialidade', dest: 'Destino', tipo: 'Tipo', cid: 'CID' };
+    const chips = Object.keys(f).filter(k => k !== 'de' && k !== 'ate').map(k => ({ l: k === 'per' ? 'Período: ' + (f.per === 'custom' ? fmtD(f.de) + ' a ' + fmtD(f.ate) : PERL[f.per] + ' (' + fmtD(iso(rng[0])) + ' a ' + fmtD(iso(rng[1])) + ')') : FL[k] + ': ' + (k === 'mes' ? ml(f[k]) : f[k]), clear: () => this.setF(k, '') }));
+    const formula = 'Resolutividade = 100 − [(transferências + encaminhamentos) ÷ atendimentos × 100], somando numerador e denominador do período antes de dividir.' + (exH ? ' Encaminhamentos ao próprio HNRe não contam como saída.' : '') + (exC ? ' Saídas de pacientes já registrados nos 3 dias anteriores (passagem por dois plantões) não são atribuídas ao plantão atual.' : '') + ' Internação conta como resolvida; óbito é indicador separado.';
+    const out = { loading: false, tabs, pg: Object.fromEntries(TABS.map(([k]) => [k, k === tab])), sel, chips, hasChips: chips.length > 0, clearAll: () => this.setState({ f: {} }), apur: D.apur, minPl, formula };
+    const Aall = agg(PF);
+
+    if (tab === 'geral') {
+      const [bl, bc] = band(Aall.resol);
+      const PM = D.P.filter(p => passP(p, 'mes')); const byM = gb(PM.filter(p => p.mes), p => p.mes);
+      const ms = [...byM.keys()].sort().map(m => ({ m, a: agg(byM.get(m)) })); const mx = Math.max(1, ...ms.map(x => x.a.at));
+      const months = ms.map(({ m, a }) => ({ l: ml(m), at: nf(a.at), h: (a.at / mx * 85) + '%', r: pf(a.resol), rc: band(a.resol)[1], click: this.tg('mes', m), op: op('mes', m) }));
+      const alta = Math.max(0, Aall.at - Aall.int - Aall.tr - Aall.enc - Aall.ob);
+      const desf = [['Alta / resolvido no PA', alta, '#C9CEE0'], ['Internação', Aall.int, N], ['Transferência', Aall.tr, GOLD], ['Encaminhamento', Aall.enc, '#8E96B8'], ['Óbito', Aall.ob, RD]].map(([l, v, c]) => ({ l, v: nf(v), p: pf(v / Aall.at), w: (v / Aall.at * 100) + '%', c }));
+      const PT = D.P.filter(p => passP(p, 'turno'));
+      const turnos = ['Diurno', 'Noturno'].map(t => { const a = agg(PT.filter(p => p.turno === t)); return { l: t, n: nf(a.n), atPl: df(a.atPl), pInt: pf(a.pInt), pTr: pf(a.pTr), pEnc: pf(a.pEnc), r: pf(a.resol), rc: band(a.resol)[1], click: this.tg('turno', t), op: op('turno', t) }; });
+      const dw = [1, 2, 3, 4, 5, 6, 0].map(d => { const L = PF.filter(p => p.dow === d); return { l: DOW[d], v: L.length ? df(L.reduce((s, p) => s + p.at, 0) / L.length) : '—', x: L.length ? L.reduce((s, p) => s + p.at, 0) / L.length : 0 }; });
+      const dmx = Math.max(1, ...dw.map(d => d.x)); dw.forEach(d => d.h = (d.x / dmx * 80) + '%');
+      out.g = { resol: pf(Aall.resol), resolC: bc, band: bl, meta: pf(meta, 0), out: nf(Aall.out), at: nf(Aall.at), atPl: df(Aall.atPl), n: nf(Aall.n), nD: nf(Aall.n - Aall.not), nN: nf(Aall.not), int: nf(Aall.int), pInt: pf(Aall.pInt), tr: nf(Aall.tr), pTr: pf(Aall.pTr), enc: nf(Aall.enc), pEnc: pf(Aall.pEnc), encH: nf(Aall.encH), ob: nf(Aall.ob), obM: df(Aall.ob / Aall.at * 1000, 2), maA: nf(Aall.maA), maB: nf(Aall.maB), months, desf, turnos, dow: dw };
+    }
+
+    if (tab === 'clinico') {
+      const Et = evs('tipo'); const tc = cnt(Et, e => e.tipo);
+      const tipos = tc.map(([l, v]) => ({ l, v: nf(v), click: this.tg('tipo', l), bg: f.tipo === l ? N : '#fff', fg: f.tipo === l ? '#fff' : N }));
+      const Ee = evs('esp'); const be = gb(Ee, e => e.esp); const mx = Math.max(1, ...[...be.values()].map(l => l.length));
+      const esp = [...be].sort((a, b) => b[1].length - a[1].length).slice(0, 14).map(([l, L]) => { const c = t => L.filter(e => e.tipo === t).length; const i = c('Internação'), t = c('Transferência'), en = c('Encaminhamento'); return { l, v: nf(L.length), w1: i / mx * 100 + '%', w2: t / mx * 100 + '%', w3: en / mx * 100 + '%', w4: (L.length - i - t - en) / mx * 100 + '%', click: this.tg('esp', l), op: op('esp', l) }; });
+      const withC = EF.filter(e => e.cid); const bc = gb(withC, e => e.cid);
+      const cids = [...bc].sort((a, b) => b[1].length - a[1].length).slice(0, 12).map(([cid, L]) => { const c = t => L.filter(e => e.tipo === t).length / L.length; return { cid, desc: D.cm[cid] || '—', n: nf(L.length), pInt: pf(c('Internação'), 0), pTr: pf(c('Transferência'), 0), pEnc: pf(c('Encaminhamento'), 0), click: this.tg('cid', cid), op: op('cid', cid) }; });
+      const Ed = evs('dest').filter(e => (e.tipo === 'Transferência' || e.tipo === 'Encaminhamento') && e.dest !== '(sem destino)'); const bd = gb(Ed, e => e.dest); const dmx = Math.max(1, ...[...bd.values()].map(l => l.length));
+      const dest = [...bd].sort((a, b) => b[1].length - a[1].length).slice(0, 12).map(([l, L]) => { const t = L.filter(e => e.tipo === 'Transferência').length; return { l: short(l), v: nf(L.length), w1: t / dmx * 100 + '%', w2: (L.length - t) / dmx * 100 + '%', click: this.tg('dest', l), op: op('dest', l) }; });
+      const SX = { F: 'Feminino', M: 'Masculino', I: 'Ignorado', N: 'Não informado' };
+      const sx = cnt(EF, e => SX[e.sexo] || 'Não informado'); const sxm = Math.max(1, ...sx.map(x => x[1]));
+      out.c = { tipos, esp, cids, dest, nEv: nf(EF.length), cidFill: pf(withC.length / Math.max(1, EF.length), 0), sexo: sx.map(([l, v]) => ({ l, v: nf(v), p: pf(v / EF.length, 0), w: v / sxm * 100 + '%' })) };
+    }
+
+    if (tab === 'transf') {
+      const ET = EF.filter(e => e.tipo === 'Transferência');
+      const EtE = evs('esp'); const ETe = EtE.filter(e => e.tipo === 'Transferência'); const allByEsp = gb(EtE, e => e.esp);
+      const be = gb(ETe, e => e.esp); const emx = Math.max(1, ...[...be.values()].map(l => l.length));
+      const espL = [...be].sort((a, b) => b[1].length - a[1].length);
+      const esp = espL.slice(0, 12).map(([l, L]) => ({ l, v: nf(L.length), w: L.length / emx * 100 + '%', taxa: pf(L.length / (allByEsp.get(l) || L).length, 0), click: this.tg('esp', l), op: op('esp', l) }));
+      const ETd = evs('dest').filter(e => e.tipo === 'Transferência'); const bd = gb(ETd, e => e.dest); const dmx = Math.max(1, ...[...bd.values()].map(l => l.length));
+      const dest = [...bd].sort((a, b) => b[1].length - a[1].length).slice(0, 12).map(([l, L]) => ({ l: short(l), v: nf(L.length), p: pf(L.length / ETd.length, 0), w: L.length / dmx * 100 + '%', click: this.tg('dest', l), op: op('dest', l) }));
+      const topD = cnt(ET, e => e.dest).filter(x => x[0] !== '(sem destino)'); const topE = cnt(ET, e => e.esp); const topC = cnt(ET.filter(e => e.cid), e => e.cid);
+      const colsK = topD.slice(0, 7).map(x => x[0]); const rowsK = topE.slice(0, 9).map(x => x[0]);
+      const mxv = Math.max(1, ...rowsK.flatMap(r => colsK.map(c => ET.filter(e => e.esp === r && e.dest === c).length)));
+      const mx = rowsK.map(r => { const L = ET.filter(e => e.esp === r); const cells = colsK.map(c => { const v = L.filter(e => e.dest === c).length; const a = v / mxv; return { v: v || '', bg: v ? `rgba(5,15,65,${.1 + .9 * a})` : '#F7F8FB', fg: a > .45 ? '#fff' : '#050F41', click: () => this.setState(s => ({ f: { ...s.f, esp: r, dest: c } })) }; }); const o = L.filter(e => !colsK.includes(e.dest)).length; cells.push({ v: o || '', bg: o ? '#EEF0F5' : '#F7F8FB', fg: '#050F41', click: this.tg('esp', r) }); return { l: r, cells, tot: L.length }; });
+      const cidEsp = espL.slice(0, 6).map(([l, L]) => { const wc = L.filter(e => e.cid); const cc = cnt(wc, e => e.cid).slice(0, 5); const m = Math.max(1, ...cc.map(x => x[1])); return { l, n: L.length, click: this.tg('esp', l), cids: cc.map(([cid, n]) => ({ cid, desc: D.cm[cid] || '—', n, w: n / m * 100 + '%', click: this.tg('cid', cid) })), semCid: (L.length - wc.length) + ' sem CID registrado' }; });
+      const topCids = topC.slice(0, 12).map(([cid, n]) => { const L = ET.filter(e => e.cid === cid); const e1 = cnt(L, e => e.esp)[0], d1 = cnt(L, e => e.dest)[0]; return { cid, desc: D.cm[cid] || '—', n, esp: e1[0] + ' (' + e1[1] + ')', dest: short(d1[0]) + ' (' + d1[1] + ')', click: this.tg('cid', cid), op: op('cid', cid) }; });
+      out.t = { n: nf(ET.length), taxa: pf(Aall.pTr), topEsp: topE[0] ? topE[0][0] : '—', topEspN: topE[0] ? pf(topE[0][1] / ET.length, 0) + ' das transferências (' + topE[0][1] + ')' : '', topDest: topD[0] ? short(topD[0][0]) : '—', topDestN: topD[0] ? pf(topD[0][1] / ET.length, 0) + ' das transferências (' + topD[0][1] + ')' : '', topCid: topC[0] ? topC[0][0] : '—', topCidN: topC[0] ? (D.cm[topC[0][0]] || '') + ' · ' + topC[0][1] + ' casos' : '', esp, dest, cols: [...colsK.map(short), 'Outros'], gtc: 'minmax(150px,1.3fr) repeat(' + (colsK.length + 1) + ', minmax(64px,1fr)) 60px', mx, cidEsp, topCids, note: 'CID registrado em ' + pf(ET.filter(e => e.cid).length / Math.max(1, ET.length), 0) + ' das transferências. Contagem por evento (tb_pacientes_eventos); a taxa sobre atendimentos usa o total de transferências de tb_plantoes.' };
+    }
+
+    const people = (groups, key, all, skipList) => {
+      const mAll = [...new Set(skipList.map(p => p.mes).filter(Boolean))].sort().slice(-6);
+      const arr = [...groups].map(([name, L]) => ({ name, L, a: agg(L) })).filter(x => x.a.at > 0);
+      const elig = arr.filter(x => x.a.n >= minPl && !x.name.startsWith('(')).sort((x, y) => y.a.resol - x.a.resol);
+      const lo = Math.max(0, Math.floor((Math.min(...elig.map(x => x.a.resol), 1) - .02) * 100) / 100);
+      const W = r => Math.max(2, (r - lo) / (1 - lo) * 100) + '%';
+      const item = x => { const a = x.a, [bl, bc] = band(a.resol), tot = Math.max(.0001, ...elig.map(y => y.a.pInt + y.a.pTr + y.a.pEnc));
+        const sp = mAll.map(m => { const aa = agg(x.L.filter(p => p.mes === m)); return { r: aa.resol, m }; });
+        const v = sp.filter(z => isFinite(z.r)); const dl = v.length > 1 ? (v[v.length - 1].r - v[0].r) * 100 : NaN;
+        return { name: x.name, r: pf(a.resol), bl, bc, n: nf(a.n), meses: a.meses, perMes: df(a.perMes), not: pf(a.not / a.n, 0), at: nf(a.at), atPl: df(a.atPl), pInt: pf(a.pInt), pTr: pf(a.pTr), pEnc: pf(a.pEnc), ob: nf(a.ob), w: W(a.resol), s1: a.pInt / tot * 100 + '%', s2: a.pTr / tot * 100 + '%', s3: a.pEnc / tot * 100 + '%', click: this.tg(key, x.name), op: op(key, x.name), bd: f[key] === x.name ? GOLD : '#E3E6EE', bg: f[key] === x.name ? '#FFF8E6' : 'transparent', delta: isFinite(dl) ? (dl >= 0 ? '▲ ' : '▼ ') + df(Math.abs(dl)) + ' pp · 6m' : '', spark: sp.map(z => ({ h: isFinite(z.r) ? Math.max(6, (z.r - .8) / .2 * 100) + '%' : '3px', c: isFinite(z.r) ? band(z.r)[1] : '#E3E6EE', t: ml(z.m) + ': ' + pf(z.r) })) }; };
+      const items = elig.map(item);
+      const showAll = all; const pa = agg(skipList.filter(p => key === 'sup' ? !p.sup.startsWith('(') : p.pls.length));
+      return { items, cards: showAll ? items : items.slice(0, 8), hasMore: items.length > 8, lo: pf(lo, 0), meanL: Math.max(0, (pa.resol - lo) / (1 - lo) * 100) + '%', pa, arr, elig };
+    };
+
+    if (tab === 'sup') {
+      const SL = D.P.filter(p => passP(p, 'sup'));
+      const r = people(gb(SL, p => p.sup), 'sup', s.allSup, SL); const [bl, bc] = band(r.pa.resol);
+      const pm = r.elig.map(x => x.a.perMes).filter(isFinite);
+      out.sp = { r: pf(r.pa.resol), rc: bc, band: bl, meta: pf(meta, 0), nP: r.elig.length, perMes: df(pm.reduce((a, b) => a + b, 0) / Math.max(1, pm.length)), sem: nf(SL.filter(p => p.sup === '(sem supervisor)').length), cards: r.cards, hasMore: r.hasMore, toggle: () => this.setState(s => ({ allSup: !s.allSup })), toggleTxt: s.allSup ? 'Mostrar só os 8 primeiros' : 'Ver todos (' + r.items.length + ')', rank: r.items, rows: r.items, meanL: r.meanL, lo: r.lo };
+    }
+
+    if (tab === 'pl') {
+      const SL = D.P.filter(p => passP(p, 'pl'));
+      const r = people(gb(SL.filter(p => p.pls.length), p => p.pls), 'pl', s.allPl, SL); const [bl, bc] = band(r.pa.resol);
+      const pm = r.elig.map(x => x.a.perMes).filter(isFinite);
+      const pairs = gb(SL.filter(p => p.pls.length >= 2), p => p.pls.slice(0, 2).sort().join(' + '));
+      const pairTop = new Map(); pairs.forEach((L, k) => k.split(' + ').forEach(n => { const c = pairTop.get(n); if (!c || c[1] < L.length) pairTop.set(n, [k.split(' + ').find(x => x !== n), L.length]); }));
+      r.items.forEach(it => { const t = pairTop.get(it.name); it.dupla = t ? t[0] + ' (' + t[1] + ')' : '—'; });
+      const duplas = [...pairs].filter(([, L]) => L.length >= 3).sort((a, b) => b[1].length - a[1].length).slice(0, 10).map(([l, L]) => { const a = agg(L); return { l, n: L.length, r: pf(a.resol), bc: band(a.resol)[1] }; });
+      const top = [...r.arr].sort((a, b) => b.a.n - a.a.n).slice(0, 15);
+      const hmM = [...new Set(SL.map(p => p.mes).filter(Boolean))].sort().slice(-14);
+      const hmax = Math.max(1, ...top.flatMap(x => hmM.map(m => x.L.filter(p => p.mes === m).length)));
+      const hm = { gtc: '120px repeat(' + hmM.length + ', minmax(26px,1fr))', months: hmM.map(ml), rows: top.map(x => ({ l: x.name, cells: hmM.map(m => { const v = x.L.filter(p => p.mes === m).length, a = v / hmax; return { v: v || '', t: x.name + ' · ' + ml(m) + ': ' + v + ' plantões', bg: v ? `rgba(5,15,65,${.1 + .9 * a})` : '#F7F8FB', fg: a > .45 ? '#fff' : '#050F41' }; }) })) };
+      const aD = agg(PF.filter(p => p.turno === 'Diurno')), aN = agg(PF.filter(p => p.turno === 'Noturno'));
+      out.pp = { r: pf(r.pa.resol), rc: bc, band: bl, meta: pf(meta, 0), nP: r.elig.length, nAll: r.arr.length, perMes: df(pm.reduce((a, b) => a + b, 0) / Math.max(1, pm.length)), pmMin: df(Math.min(...pm)), pmMax: df(Math.max(...pm)), atPl: df(Aall.atPl), atD: df(aD.atPl), atN: df(aN.atPl), cards: r.cards, hasMore: r.hasMore, toggle: () => this.setState(s => ({ allPl: !s.allPl })), toggleTxt: s.allPl ? 'Mostrar só os 8 primeiros' : 'Ver todos (' + r.items.length + ')', rank: r.items, rows: r.items, meanL: r.meanL, lo: r.lo, duplas, hm };
+    }
+
+    if (tab === 'leitos') {
+      const L = PF; const n = Math.max(1, L.length); const sA = L.reduce((s, p) => s + p.alaA, 0), sB = L.reduce((s, p) => s + p.alaB, 0);
+      const occT = (sA + sB) / n / 25;
+      const PM = D.P.filter(p => passP(p, 'mes') && p.mes); const byM = gb(PM, p => p.mes);
+      const months = [...byM.keys()].sort().map(m => { const X = byM.get(m), k = X.length; const a = X.reduce((s, p) => s + p.alaA, 0) / k / 15, b = X.reduce((s, p) => s + p.alaB, 0) / k / 10; return { l: ml(m), a: pf(a, 0), b: pf(b, 0), hA: Math.min(100, a * 100) + '%', hB: Math.min(100, b * 100) + '%', t: ml(m) + ' · Ala A ' + pf(a) + ' · Ala B ' + pf(b), click: this.tg('mes', m), op: op('mes', m) }; });
+      const turnos = ['Diurno', 'Noturno'].map(t => { const X = L.filter(p => p.turno === t), k = Math.max(1, X.length); const a = X.reduce((s, p) => s + p.alaA, 0) / k, b = X.reduce((s, p) => s + p.alaB, 0) / k; return { l: t, a: pf(a / 15, 0), b: pf(b / 10, 0), t: pf((a + b) / 25, 0) }; });
+      const zA = L.filter(p => !p.alaA).length, ovB = L.filter(p => p.alaB > 10).length;
+      out.lt = { occT: pf(occT), tC: occT >= .85 ? RD : occT >= .7 ? A : N, avgT: df((sA + sB) / n), occA: pf(sA / n / 15), occB: pf(sB / n / 10), avgA: df(sA / n), avgB: df(sB / n), pkA: Math.max(0, ...L.map(p => p.alaA)), pkB: Math.max(0, ...L.map(p => p.alaB)), hi: nf(L.filter(p => p.alaA / 15 >= .85 || p.alaB / 10 >= .85).length), months, turnos, note: 'Ocupação = pacientes internados registrados no plantão ÷ leitos da ala (A = 15, B = 10). A Ala A está zerada em ' + pf(zA / n, 0) + ' dos plantões e a Ala B passa de 10 pacientes em ' + ovB + ' plantões. Isso sugere que o censo da Ala A não é preenchido e que a coluna da Ala B pode estar recebendo o total da enfermaria. Conferir as colunas de ala em tb_plantoes antes de usar estes números.' };
+    }
+
+    if (tab === 'pivo') {
+      const DIM = { mes: ['Mês', 1, x => x.mes || '9999', k => k === '9999' ? '(data inválida)' : ml(k), 1], turno: ['Turno', 1, x => x.turno, k => k, 1], dow: ['Dia da semana', 1, x => String(x.dow ?? 9), k => DOW[k] || '—', 1], sup: ['Supervisor médico', 1, x => x.sup, k => k], pl: ['Plantonista', 1, x => x.pls.length ? x.pls : ['(sem registro)'], k => k], esp: ['Especialidade', 0, e => e.esp, k => k], tipo: ['Tipo de evento', 0, e => e.tipo, k => k], dest: ['Destino', 0, e => e.dest, k => short(k)], sexo: ['Sexo', 0, e => e.sexo, k => k], tot: ['(total)', 1, () => 'Total', k => k] };
+      const MET = { resol: ['% Resolutividade', 1, a => a.resol, pf, 1], plantoes: ['Plantões 12h', 1, a => a.n, nf], at: ['Atendimentos', 1, a => a.at, nf], atPl: ['Atend./plantão', 1, a => a.atPl, df], pInt: ['% Internação', 1, a => a.pInt, pf], pTr: ['% Transferência', 1, a => a.pTr, pf], pEnc: ['% Encaminhamento', 1, a => a.pEnc, pf], ob: ['Óbitos', 1, a => a.ob, nf], ev: ['Nº de eventos', 0, L => L.length, nf] };
+      const pSel = (k, obj, exc) => h('select', { value: s[k], onChange: e => this.setState({ [k]: e.target.value }), style: selSt }, Object.keys(obj).filter(x => !exc || x !== exc).map(x => h('option', { key: x, value: x }, obj[x][0])));
+      const rd = DIM[s.pivR], cd = DIM[s.pivC], mt = MET[s.pivV];
+      const isP = mt[1] === 1, err = isP && (!rd[1] || !cd[1]);
+      let rows = [], cols = [], csvRows = [];
+      if (!err) {
+        const src = isP ? PF : EF; const g = (x, d) => { const o = isP || !d[1] ? x : x.p; const v = d[2](o); return Array.isArray(v) ? v : [v]; };
+        const cells = new Map(), rT = new Map(), cT = new Map();
+        src.forEach(x => g(x, rd).forEach(r => g(x, cd).forEach(c => { const k = r + '\u0001' + c; if (!cells.has(k)) cells.set(k, []); cells.get(k).push(x); }))); 
+        src.forEach(x => { g(x, rd).forEach(r => { if (!rT.has(r)) rT.set(r, []); rT.get(r).push(x); }); g(x, cd).forEach(c => { if (!cT.has(c)) cT.set(c, []); cT.get(c).push(x); }); });
+        const ord = (m, d, cap) => { let ks = [...m.keys()]; if (d[4]) { ks.sort(); if (ks.length > cap) ks = ks.slice(-cap); } else ks = ks.sort((a, b) => m.get(b).length - m.get(a).length).slice(0, cap); return ks; };
+        const rK = ord(rT, rd, 40), cK = ord(cT, cd, 16);
+        const val = L => L && L.length ? mt[2](isP ? agg(L) : L) : NaN;
+        const allV = []; rK.forEach(r => cK.forEach(c => { const v = val(cells.get(r + '\u0001' + c)); if (isFinite(v)) allV.push(v); }));
+        const mxv = Math.max(1e-9, ...allV);
+        cols = cK.map(cd[3]);
+        rows = rK.map(r => ({ l: rd[3](r), tot: mt[3](val(rT.get(r))), cells: cK.map(c => { const L = cells.get(r + '\u0001' + c); const v = val(L); if (!isFinite(v)) return { t: '', bg: '#F7F8FB', fg: '#1B2140' }; if (mt[4]) { const bc = band(v)[1]; return { t: mt[3](v) + (L.length < 5 ? '*' : ''), bg: bc + '22', fg: bc }; } const a = v / mxv; return { t: mt[3](v), bg: `rgba(5,15,65,${.06 + .8 * a})`, fg: a > .5 ? '#fff' : '#1B2140' }; }) }));
+        csvRows = [[rd[0] + ' / ' + cd[0], ...cols, 'Total'], ...rows.map(r => [r.l, ...r.cells.map(c => c.t), r.tot])];
+      }
+      const csv = () => { const t = csvRows.map(r => r.map(x => '"' + String(x).replace(/"/g, '""') + '"').join(';')).join('\n'); const b = new Blob(['\ufeff' + t], { type: 'text/csv' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'pivo-pa.csv'; a.click(); };
+      out.pv = { selR: pSel('pivR', DIM), selC: pSel('pivC', DIM), selV: pSel('pivV', MET), err, errTxt: '"' + mt[0] + '" é calculado por plantão. Use só dimensões do plantão (mês, turno, dia da semana, supervisor, plantonista) ou troque o valor para "Nº de eventos".', rows, cols, rl: rd[0], cl: cd[0], gtc: 'minmax(160px,1.4fr) repeat(' + (cols.length + 1) + ', minmax(64px,1fr))', minW: (220 + (cols.length + 1) * 70) + 'px', csv };
+    }
+    return out;
+  }
+}
+</script>
+</body>
+</html>
